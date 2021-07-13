@@ -57,7 +57,7 @@ public class TabRenderer {
     }
 
     public void renderForeground(MatrixStack matrices, double mouseX, double mouseY) {
-        MinecraftClient.getInstance().getTextureManager().bindTexture(TABS_TEXTURE);
+        RenderSystem.setShaderTexture(0, TABS_TEXTURE);
 
         for (int i = 0; i < tabRenderInfos.length; i++) {
             TabRenderInfo tabRenderInfo = tabRenderInfos[i];
@@ -77,7 +77,7 @@ public class TabRenderer {
     private void drawButtons(MatrixStack matrices, double mouseX, double mouseY) {
         HandledScreen<?> currentScreen = tabManager.getCurrentScreen();
 
-        MinecraftClient.getInstance().getTextureManager().bindTexture(BUTTONS_TEXTURE);
+        RenderSystem.setShaderTexture(0, BUTTONS_TEXTURE);
 
         int width = ((HandledScreenAccessor) currentScreen).getBackgroundWidth();
         int height = ((HandledScreenAccessor) currentScreen).getBackgroundHeight();
@@ -142,7 +142,7 @@ public class TabRenderer {
     private void renderTab(MatrixStack matrices, TabRenderInfo tabRenderInfo) {
         HandledScreen<?> currentScreen = tabManager.getCurrentScreen();
 
-        MinecraftClient.getInstance().getTextureManager().bindTexture(TABS_TEXTURE);
+        RenderSystem.setShaderTexture(0, TABS_TEXTURE);
         currentScreen.drawTexture(matrices, tabRenderInfo.x, tabRenderInfo.y, tabRenderInfo.texU, tabRenderInfo.texV,
                 tabRenderInfo.texW, tabRenderInfo.texH);
 
