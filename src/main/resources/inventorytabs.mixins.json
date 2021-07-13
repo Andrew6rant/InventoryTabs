@@ -10,7 +10,8 @@
     "LoomScreenTabAdder",
     "StonecutterScreenTabAdder",
     "TabManagerContainerImplementer",
-    "VanillaScreenTabAdder"
+    "VanillaScreenTabAdder",
+    "ShulkerBoxBlockInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

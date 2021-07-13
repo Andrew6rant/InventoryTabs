@@ -105,14 +105,15 @@ public class TabRenderer {
 
     private void drawPageText(MatrixStack matrices) {
         if (tabManager.getMaxPages() > 1 && pageTextRefreshTime > 0) {
-            RenderSystem.pushMatrix();
+            // RenderSystem.pushMatrix();
+            // TODO: Figure out rendering
 
             int color = 0xFFFFFFFF;
 
             if (pageTextRefreshTime <= 20) {
                 RenderSystem.disableTexture();
                 RenderSystem.enableBlend();
-                RenderSystem.disableAlphaTest();
+                // RenderSystem.disableAlphaTest();
                 RenderSystem.defaultBlendFunc();
                 RenderSystem.colorMask(true, true, true, true);
                 float transparency = pageTextRefreshTime / 20F;
@@ -134,7 +135,7 @@ public class TabRenderer {
 
             MinecraftClient.getInstance().textRenderer.draw(matrices, text, x, y, color);
 
-            RenderSystem.popMatrix();
+            // RenderSystem.popMatrix();
         }
     }
 

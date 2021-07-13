@@ -18,7 +18,7 @@ public class PlayerInventoryTab extends Tab {
     @Override
     public void open() {
         MinecraftClient client = MinecraftClient.getInstance();
-        client.openScreen(new InventoryScreen(client.player));
+        client.setScreen(new InventoryScreen(client.player));
     }
 
     @Override
@@ -43,7 +43,7 @@ public class PlayerInventoryTab extends Tab {
 
     private static ItemStack getRenderItemStack() {
         ItemStack itemStack = new ItemStack(Blocks.PLAYER_HEAD);
-        itemStack.getOrCreateTag().putString("SkullOwner",
+        itemStack.getOrCreateNbt().putString("SkullOwner",
                 MinecraftClient.getInstance().player.getGameProfile().getName());
 
         return itemStack;
