@@ -137,11 +137,15 @@ public class TabManager {
                     GLFW.GLFW_KEY_LEFT_SHIFT)) {
                 if (currentTabIndex > 0) {
                     onTabClick(tabs.get(currentTabIndex - 1));
+                } else {
+                    onTabClick(tabs.get(tabs.size() - 1));
                 }
                 return true;
             } else {
                 if (currentTabIndex < tabs.size() - 1) {
                     onTabClick(tabs.get(currentTabIndex + 1));
+                } else {
+                    onTabClick(tabs.get(0));
                 }
 
                 return true;
@@ -254,3 +258,4 @@ public class TabManager {
                 .play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
     }
 }
+
