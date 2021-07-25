@@ -3,7 +3,7 @@ Adds tabs to access nearby blocks.
 
 ## Devs
 ### Importing
-To add **Inventory Tabs** to your project, you need to add ``https://jitpack.io`` as a repo and ``com.github.cakewhip:inventorytabs:mcA.B.C-vX.Y.Z`` as a dependency. For example:
+To add **Inventory Tabs** to your project, you need to add ``https://jitpack.io`` as a repo and ``com.github.LiamMCW:inventorytabs:mcA.B.C-vX.Y.Z`` as a dependency. For example:
 ```
 repositories {
 	maven {
@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-	modImplementation "com.github.cakewhip:inventorytabs:mcA.B.C-vX.Y.Z"
+	modImplementation "com.github.LiamMCW:inventorytabs:mcA.B.C-vX.Y.Z"
 }
 ```
 See the releases page for available versions.
@@ -36,3 +36,6 @@ Your handled screen needs to update the ``TabManager``, which you can grab a ref
 Finally, there are some methods to call for rendering and managing the tabs. In the ``render`` method before anything is drawn, call ``TabRenderer#renderBackground``. In the ``drawBackground``, call ``TabRenderer#renderForeground`` and ``TabRenderer#renderHoverTooltips``. In the ``mouseClicked`` method, call ``TabManager#mouseClicked``.
 
 If your screen's GUI dynamically changes (in the case of a recipe book opening), you can implement the ``TabRenderingHints`` interface and offset the top and bottom rows however you like.
+
+## Credits
+This 1.17 port is based on the original mod by cakewhip, and full credits can be found at https://github.com/LiamMCW/inventorytabs/graphs/contributors.
