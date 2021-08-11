@@ -1,5 +1,5 @@
 # InventoryTabs
-Adds tabs to access nearby blocks.
+Adds tabs to access nearby blocks. Requires Cloth Config API.
 
 ## Devs
 ### Importing
