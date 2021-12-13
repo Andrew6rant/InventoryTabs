@@ -5,7 +5,9 @@
   "name": "Inventory Tabs",
   "description": "Adds tabs to your inventory that lead to nearby blocks.",
   "authors": [
-    "KQP"
+    "KQP",
+    "LiamMCW",
+    "Andrew6rant (Andrew Grant)"
   ],
   "contact": {
     "homepage": "https://github.com/LiamMCW/inventorytabs",
@@ -29,6 +31,6 @@
   "depends": {
     "fabricloader": ">=0.11.6",
     "fabric": ">=0.37.0",
-    "minecraft": "1.17.1"
+    "minecraft": "1.18.x"
   }
 }
