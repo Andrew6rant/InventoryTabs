@@ -3,7 +3,7 @@ Adds tabs to access nearby blocks. Requires Cloth Config API.
 
 ## Devs
 ### Importing
-To add **Inventory Tabs** to your project, you need to add ``https://jitpack.io`` as a repo and ``com.github.LiamMCW:inventorytabs:mcA.B.C-vX.Y.Z`` as a dependency. For example:
+To add **Inventory Tabs** to your project, you need to add ``https://jitpack.io`` as a repo and ``com.github.Andrew6rant:inventorytabs:(mod version)-(Minecraft version)`` as a dependency. For example:
 ```
 repositories {
 	maven {
@@ -12,9 +12,10 @@ repositories {
 }
 
 dependencies {
-	modImplementation "com.github.Andrew6rant:inventorytabs:mcA.B.C-vX.Y.Z"
+	modImplementation "com.github.Andrew6rant:inventorytabs:0.4.2-1.18.1"
 }
 ```
+
 See the releases page for available versions.
 
 ### Adding Custom Tabs
