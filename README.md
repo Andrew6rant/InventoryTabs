@@ -39,4 +39,4 @@ Finally, there are some methods to call for rendering and managing the tabs. In 
 If your screen's GUI dynamically changes (in the case of a recipe book opening), you can implement the ``TabRenderingHints`` interface and offset the top and bottom rows however you like.
 
 ## Credits
-This 1.17 port is based on the original mod by cakewhip, and full credits can be found at https://github.com/LiamMCW/inventorytabs/graphs/contributors.
+This 1.18 port is based on LiamMCW's fork of the original mod by cakewhip. Full credits can be found at https://github.com/Andrew6rant/inventorytabs/graphs/contributors.
