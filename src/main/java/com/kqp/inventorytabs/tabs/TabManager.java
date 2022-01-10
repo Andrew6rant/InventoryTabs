@@ -14,6 +14,7 @@ import com.kqp.inventorytabs.tabs.render.TabRenderer;
 import com.kqp.inventorytabs.tabs.tab.Tab;
 import com.kqp.inventorytabs.util.MouseUtil;
 
+import net.fabricmc.loader.api.FabricLoader;
 import org.lwjgl.glfw.GLFW;
 
 import net.fabricmc.api.EnvType;
@@ -194,8 +195,11 @@ public class TabManager {
 
     public int pageOf(Tab tab) {
         int index = tabs.indexOf(tab);
-
-        return index / (getMaxRowLength() * 2);
+        if(FabricLoader.getInstance().isModLoaded("biginv")) {
+            return index / (getMaxRowLength() * 2 + 5);
+        } else {
+            return index / (getMaxRowLength() * 2);
+        }
     }
 
     public int getMaxRowLength() {
@@ -238,7 +242,11 @@ public class TabManager {
     }
 
     public int getMaxPages() {
-        return tabs.size() / (getMaxRowLength() * 2 + 1);
+        if(FabricLoader.getInstance().isModLoaded("biginv")) {
+            return tabs.size() / (getMaxRowLength() * 2 + 6);
+        } else {
+            return tabs.size() / (getMaxRowLength() * 2 + 1);
+        }
     }
 
     public boolean canGoBackAPage() {

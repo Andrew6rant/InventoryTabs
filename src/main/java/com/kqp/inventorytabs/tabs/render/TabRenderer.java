@@ -10,6 +10,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -168,7 +169,12 @@ public class TabRenderer {
         HandledScreen<?> currentScreen = tabManager.getCurrentScreen();
 
         int maxRowLength = tabManager.getMaxRowLength();
-        int numVisibleTabs = maxRowLength * 2;
+        int numVisibleTabs;
+        if(FabricLoader.getInstance().isModLoaded("biginv")) {
+            numVisibleTabs = (maxRowLength * 2) + 5;
+        } else {
+            numVisibleTabs = maxRowLength * 2;
+        }
         int startingIndex = tabManager.currentPage * numVisibleTabs;
 
         TabRenderInfo[] tabRenderInfo = new TabRenderInfo[numVisibleTabs];
@@ -202,7 +208,11 @@ public class TabRenderer {
                         tabInfo.y = y - 28;
                     }
                 } else {
-                    tabInfo.y = y + ((HandledScreenAccessor) currentScreen).getBackgroundHeight() - 4;
+                    if(FabricLoader.getInstance().isModLoaded("biginv")) {
+                        tabInfo.y = y + ((HandledScreenAccessor) currentScreen).getBackgroundHeight() + 32;
+                    } else {
+                        tabInfo.y = y + ((HandledScreenAccessor) currentScreen).getBackgroundHeight() - 4;
+                    }
                 }
 
                 // Calc texture dimensions
@@ -248,9 +258,14 @@ public class TabRenderer {
                         tabInfo.itemX += ((TabRenderingHints) currentScreen).getTopRowXOffset();
                         tabInfo.itemY += ((TabRenderingHints) currentScreen).getTopRowYOffset();
                     } else {
-                        tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset();
+                        if(FabricLoader.getInstance().isModLoaded("biginv")) {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset() - 145;
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset() - 145;
+                        } else {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset();
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset();
+                        }
                         tabInfo.y += ((TabRenderingHints) currentScreen).getBottomRowYOffset();
-                        tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset();
                         tabInfo.itemY += ((TabRenderingHints) currentScreen).getBottomRowYOffset();
                     }
                 }
