@@ -11,6 +11,7 @@ import com.kqp.inventorytabs.interf.TabManagerContainer;
 import com.kqp.inventorytabs.mixin.accessor.HandledScreenAccessor;
 import com.kqp.inventorytabs.tabs.render.TabRenderInfo;
 import com.kqp.inventorytabs.tabs.render.TabRenderer;
+import com.kqp.inventorytabs.tabs.render.TabRenderingHints;
 import com.kqp.inventorytabs.tabs.tab.Tab;
 import com.kqp.inventorytabs.util.MouseUtil;
 
@@ -86,7 +87,7 @@ public class TabManager {
             }
 
             // Check back button
-            if (new Rectangle(x - TabRenderer.BUTTON_WIDTH - 4, y - 16, TabRenderer.BUTTON_WIDTH,
+            if (new Rectangle(x - TabRenderer.BUTTON_WIDTH - 4 + ((TabRenderingHints) currentScreen).getTopRowXOffset(), y - 16, TabRenderer.BUTTON_WIDTH,
                     TabRenderer.BUTTON_HEIGHT).contains(mouseX, mouseY)) {
                 if (canGoBackAPage()) {
                     setCurrentPage(currentPage - 1);
@@ -97,7 +98,7 @@ public class TabManager {
             }
 
             // Check forward button
-            if (new Rectangle(x + guiWidth + 4, y - 16, TabRenderer.BUTTON_WIDTH, TabRenderer.BUTTON_HEIGHT)
+            if (new Rectangle(x + guiWidth + 4 + ((TabRenderingHints) currentScreen).getTopRowXOffset(), y - 16, TabRenderer.BUTTON_WIDTH, TabRenderer.BUTTON_HEIGHT)
                     .contains(mouseX, mouseY)) {
                 if (canGoForwardAPage()) {
                     setCurrentPage(currentPage + 1);

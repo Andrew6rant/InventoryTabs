@@ -87,7 +87,9 @@ public class TabRenderer {
 
         // Drawing back button
         int x = oX - BUTTON_WIDTH - 4;
+        x += ((TabRenderingHints) currentScreen).getTopRowXOffset();
         int y = oY - 16;
+        y += ((TabRenderingHints) currentScreen).getTopRowYOffset();
         boolean hovered = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT).contains(mouseX, mouseY);
         int u = 0;
         u += tabManager.canGoBackAPage() && hovered ? BUTTON_WIDTH * 2 : 0;
@@ -96,7 +98,9 @@ public class TabRenderer {
 
         // Drawing forward button
         x = oX + width + 4;
+        x += ((TabRenderingHints) currentScreen).getTopRowXOffset();
         y = oY - 16;
+        y += ((TabRenderingHints) currentScreen).getTopRowYOffset();
         hovered = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT).contains(mouseX, mouseY);
         u = 15;
         u += tabManager.canGoForwardAPage() && hovered ? BUTTON_WIDTH * 2 : 0;
