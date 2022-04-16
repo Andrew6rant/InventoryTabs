@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-	modImplementation "com.github.Andrew6rant:inventorytabs:0.4.2-1.18.1"
+	modImplementation "com.github.Andrew6rant:inventorytabs:0.4.4-1.18.x"
 }
 ```
 
