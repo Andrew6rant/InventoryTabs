@@ -1,11 +1,19 @@
 # InventoryTabs
 Adds tabs to access nearby blocks without leaving your inventory. Completely client-side. Requires Cloth Config API.
 
-![Inventory Tabs showcase](.github/resources/InventoryTabs.png)
-![Showcase GIF](.github/resources/Tabs_showcase.gif)
+<table><tr><td width="34.5%">
+
+![Inventory Tabs showcase](https://raw.githubusercontent.com/Andrew6rant/inventorytabs/1.18.x/.github/resources/InventoryTabs.png)
+
+</td><td width="65.5%">
+
+![Showcase GIF](https://raw.githubusercontent.com/Andrew6rant/inventorytabs/1.18.x/.github/resources/Tabs_showcase.gif)
+
+</td></tr></table>
 
 Also has [BigInv](https://github.com/SollyW/BigInv) support!
-![BigInv support](.github/resources/BigInv_compat.png)
+
+![BigInv support](https://raw.githubusercontent.com/Andrew6rant/inventorytabs/1.18.x/.github/resources/BigInv_compat.png)
 
 ## Devs
 ### Importing
