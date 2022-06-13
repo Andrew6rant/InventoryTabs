@@ -13,7 +13,6 @@ import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
@@ -53,7 +52,7 @@ public class SimpleBlockTab extends Tab {
                         getBlockVec3d());
             }
 
-            MinecraftClient.getInstance().interactionManager.interactBlock(client.player, client.player.clientWorld,
+            MinecraftClient.getInstance().interactionManager.interactBlock(client.player,
                     Hand.MAIN_HAND, hitResult);
         }
     }
@@ -93,7 +92,7 @@ public class SimpleBlockTab extends Tab {
             }
         }
 
-        return new TranslatableText(world.getBlockState(blockPos).getBlock().getTranslationKey());
+        return Text.translatable(world.getBlockState(blockPos).getBlock().getTranslationKey());
     }
 
     private Vec3d getBlockVec3d() {
