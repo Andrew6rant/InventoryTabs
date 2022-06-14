@@ -49,7 +49,7 @@ public class SimpleBlockTab extends Tab {
         if (hitResult != null) {
             if (InventoryTabs.getConfig().rotatePlayer) {
                 MinecraftClient.getInstance().player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES,
-                        getBlockVec3d());
+                        Vec3d.ofCenter(blockPos));
             }
 
             MinecraftClient.getInstance().interactionManager.interactBlock(client.player,
@@ -64,6 +64,11 @@ public class SimpleBlockTab extends Tab {
         if (!Registry.BLOCK.getId(player.world.getBlockState(blockPos).getBlock()).equals(blockId)) {
             return true;
         }
+        
+        Vec3d playerHead = player.getPos().add(0D, player.getEyeHeight(player.getPose()), 0D);
+        if (Vec3d.ofCenter(blockPos).distanceTo(playerHead) > 6D) {
+            return true;
+        }
 
         if (InventoryTabs.getConfig().doSightChecksFlag) {
             if (BlockUtil.getLineOfSight(blockPos, player, 5D) == null) {
@@ -71,10 +76,7 @@ public class SimpleBlockTab extends Tab {
             }
         }
 
-        Vec3d playerHead = player.getPos().add(0D, player.getEyeHeight(player.getPose()), 0D);
-
-        return getBlockVec3d().subtract(playerHead).lengthSquared() > BlockTabProvider.SEARCH_DISTANCE
-                * BlockTabProvider.SEARCH_DISTANCE;
+        return false;
     }
 
     @Override
@@ -93,10 +95,6 @@ public class SimpleBlockTab extends Tab {
         }
 
         return Text.translatable(world.getBlockState(blockPos).getBlock().getTranslationKey());
-    }
-
-    private Vec3d getBlockVec3d() {
-        return new Vec3d(blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D);
     }
 
     @Override
