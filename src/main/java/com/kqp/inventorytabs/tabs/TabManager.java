@@ -70,6 +70,17 @@ public class TabManager {
             tabProvider.addAvailableTabs(MinecraftClient.getInstance().player, tabs);
         });
 
+        if (currentTab != null) {
+            for (int i = 0; i < tabs.size(); i++) {
+                Tab tab = tabs.get(i);
+                if (currentTab != tab && currentTab.equals(tab)) {
+                    // We've come across a tab we already have open
+                    tabs.set(i, currentTab);
+                    break;
+                }
+            }
+        }
+
         // Sort
         tabs.sort(
                 Comparator.comparing(Tab::getPriority).reversed().thenComparing(tab -> tab.getHoverText().getString()));

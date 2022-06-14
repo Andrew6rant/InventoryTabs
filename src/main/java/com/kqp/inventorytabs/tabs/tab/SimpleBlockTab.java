@@ -43,7 +43,7 @@ public class SimpleBlockTab extends Tab {
         if (InventoryTabs.getConfig().doSightChecksFlag) {
             hitResult = BlockUtil.getLineOfSight(blockPos, client.player, 5D);
         } else {
-            hitResult = new BlockHitResult(client.player.getPos(), Direction.EAST, blockPos, false);
+            hitResult = new BlockHitResult(Vec3d.ofCenter(blockPos), Direction.EAST, blockPos, false);
         }
 
         if (hitResult != null) {
