@@ -71,7 +71,7 @@ public class SimpleBlockTab extends Tab {
             }
         } else {
             if (!BlockUtil.inRange(blockPos, player, 5D)) {
-                return false;
+                return true;
             }
         }
 
