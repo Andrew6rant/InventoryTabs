@@ -11,6 +11,21 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 public class BlockUtil {
+    public static boolean inRange(BlockPos pos, PlayerEntity player, double distance) {
+        double distanceSquared = distance * distance;
+
+        Vec3d playerHead = player.getPos().add(0D, player.getEyeHeight(player.getPose()), 0D);
+        Vec3d blockVec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+
+        for (int i = 0; i < SIGHT_OFFSETS.length; i++) {
+            if (blockVec.add(SIGHT_OFFSETS[i]).squaredDistanceTo(playerHead) <= distanceSquared) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static BlockHitResult getLineOfSight(BlockPos pos, PlayerEntity player, double distance) {
         World world = player.world;
         BlockState blockState = world.getBlockState(pos);

@@ -64,15 +64,14 @@ public class SimpleBlockTab extends Tab {
         if (!Registry.BLOCK.getId(player.world.getBlockState(blockPos).getBlock()).equals(blockId)) {
             return true;
         }
-        
-        Vec3d playerHead = player.getPos().add(0D, player.getEyeHeight(player.getPose()), 0D);
-        if (Vec3d.ofCenter(blockPos).distanceTo(playerHead) > 6D) {
-            return true;
-        }
 
         if (InventoryTabs.getConfig().doSightChecksFlag) {
             if (BlockUtil.getLineOfSight(blockPos, player, 5D) == null) {
                 return true;
+            }
+        } else {
+            if (!BlockUtil.inRange(blockPos, player, 5D)) {
+                return false;
             }
         }
 
