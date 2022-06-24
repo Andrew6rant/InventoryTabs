@@ -10,9 +10,9 @@
     "Andrew6rant (Andrew Grant)"
   ],
   "contact": {
-    "homepage": "https://github.com/LiamMCW/inventorytabs",
-    "sources": "https://github.com/LiamMCW/inventorytabs",
-    "issues": "https://github.com/LiamMCW/inventorytabs/issues"
+    "homepage": "https://github.com/Andrew6rant/inventorytabs",
+    "sources": "https://github.com/Andrew6rant/inventorytabs",
+    "issues": "https://github.com/Andrew6rant/inventorytabs/issues"
   },
   "license": "MIT",
   "icon": "assets/inventorytabs/icon.png",
@@ -32,6 +32,10 @@
   "depends": {
     "fabricloader": ">=0.14.7",
     "fabric": ">=0.55.3",
-    "minecraft": "1.19.x"
+    "minecraft": "1.19.x",
+    "clothconfig2": "*"
+  },
+  "suggests": {
+    "biginv": "*"
   }
 }
