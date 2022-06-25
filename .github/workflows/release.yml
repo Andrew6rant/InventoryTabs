@@ -28,7 +28,6 @@ jobs:
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           version-type: release
-          github-tag: inventorytabs-0.4.5-1.19.x
           loaders: |
             fabric
             quilt
