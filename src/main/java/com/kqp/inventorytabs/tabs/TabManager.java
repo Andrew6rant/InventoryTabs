@@ -32,6 +32,8 @@ import net.minecraft.sound.SoundEvents;
  */
 @Environment(EnvType.CLIENT)
 public class TabManager {
+    public final boolean isBigInvLoaded = FabricLoader.getInstance().isModLoaded("biginv");
+    public final boolean isPlayerExLoaded = FabricLoader.getInstance().isModLoaded("playerex");
     public final List<Tab> tabs;
     public Tab currentTab;
 
@@ -207,8 +209,11 @@ public class TabManager {
 
     public int pageOf(Tab tab) {
         int index = tabs.indexOf(tab);
-        if(FabricLoader.getInstance().isModLoaded("biginv")) {
+        if(isBigInvLoaded) {
             return index / (getMaxRowLength() * 2 + 5);
+        } else if(isPlayerExLoaded) {
+            //System.out.println("getMaxRowLength() = " + getMaxRowLength() + ", getMaxRowLength() * 2 - 3 = " + (getMaxRowLength() * 2 - 3));
+            return index / (getMaxRowLength() * 2 - 2);
         } else {
             return index / (getMaxRowLength() * 2);
         }
@@ -230,7 +235,11 @@ public class TabManager {
     }
 
     public void setCurrentPage(int page) {
-        if (page > 0 && tabs.size() < getMaxRowLength() * 2) {
+        int maxRowLength = getMaxRowLength() * 2;
+        if (isPlayerExLoaded) {
+            maxRowLength =- 3;
+        }
+        if (page > 0 && tabs.size() < maxRowLength) {
             System.err.println("Not enough tabs to paginate, ignoring");
 
             return;
@@ -254,8 +263,10 @@ public class TabManager {
     }
 
     public int getMaxPages() {
-        if(FabricLoader.getInstance().isModLoaded("biginv")) {
+        if(isBigInvLoaded) {
             return tabs.size() / (getMaxRowLength() * 2 + 6);
+        } else if(isPlayerExLoaded) {
+            return tabs.size() / (getMaxRowLength() * 2 - 2);
         } else {
             return tabs.size() / (getMaxRowLength() * 2 + 1);
         }

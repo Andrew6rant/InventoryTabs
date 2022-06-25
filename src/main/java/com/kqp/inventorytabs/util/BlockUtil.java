@@ -17,15 +17,14 @@ public class BlockUtil {
         Vec3d playerHead = player.getPos().add(0D, player.getEyeHeight(player.getPose()), 0D);
         Vec3d blockVec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
 
-        for (int i = 0; i < SIGHT_OFFSETS.length; i++) {
-            if (blockVec.add(SIGHT_OFFSETS[i]).squaredDistanceTo(playerHead) <= distanceSquared) {
+        for (Vec3d sightOffset : SIGHT_OFFSETS) {
+            if (blockVec.add(sightOffset).squaredDistanceTo(playerHead) <= distanceSquared) {
                 return true;
             }
         }
 
         return false;
     }
-
     public static BlockHitResult getLineOfSight(BlockPos pos, PlayerEntity player, double distance) {
         World world = player.world;
         BlockState blockState = world.getBlockState(pos);
@@ -34,8 +33,8 @@ public class BlockUtil {
         Vec3d playerHead = player.getPos().add(0D, player.getEyeHeight(player.getPose()), 0D);
         Vec3d blockVec = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
 
-        for (int i = 0; i < SIGHT_OFFSETS.length; i++) {
-            Vec3d blockPosCheck = blockVec.add(SIGHT_OFFSETS[i]);
+        for (Vec3d sightOffset : SIGHT_OFFSETS) {
+            Vec3d blockPosCheck = blockVec.add(sightOffset);
 
             BlockHitResult result = getBlockHitResult(playerHead, blockPosCheck, distanceSquared, world, pos,
                     blockState);

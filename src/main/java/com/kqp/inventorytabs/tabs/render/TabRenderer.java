@@ -22,6 +22,8 @@ import net.minecraft.util.Identifier;
  */
 @Environment(EnvType.CLIENT)
 public class TabRenderer {
+    public static final boolean isBigInvLoaded = FabricLoader.getInstance().isModLoaded("biginv");
+    public static final boolean isPlayerExLoaded = FabricLoader.getInstance().isModLoaded("playerex");
     private static final Identifier TABS_TEXTURE = new Identifier("textures/gui/container/creative_inventory/tabs.png");
     private static final Identifier BUTTONS_TEXTURE = InventoryTabs.id("textures/gui/buttons.png");
 
@@ -174,8 +176,10 @@ public class TabRenderer {
 
         int maxRowLength = tabManager.getMaxRowLength();
         int numVisibleTabs;
-        if(FabricLoader.getInstance().isModLoaded("biginv")) {
+        if(isBigInvLoaded) {
             numVisibleTabs = (maxRowLength * 2) + 5;
+        } else if (isPlayerExLoaded) {
+            numVisibleTabs = (maxRowLength * 2) - 3;
         } else {
             numVisibleTabs = maxRowLength * 2;
         }
@@ -191,6 +195,9 @@ public class TabRenderer {
                 // Setup basic info
                 Tab tab = tabManager.tabs.get(startingIndex + i);
                 boolean topRow = i < maxRowLength;
+                if(isPlayerExLoaded) {
+                    topRow = i < maxRowLength - 3;
+                }
                 boolean selected = tab == tabManager.currentTab;
 
                 // Create tab info object
@@ -212,7 +219,7 @@ public class TabRenderer {
                         tabInfo.y = y - 28;
                     }
                 } else {
-                    if(FabricLoader.getInstance().isModLoaded("biginv")) {
+                    if(isBigInvLoaded) {
                         tabInfo.y = y + ((HandledScreenAccessor) currentScreen).getBackgroundHeight() + 32;
                     } else {
                         tabInfo.y = y + ((HandledScreenAccessor) currentScreen).getBackgroundHeight() - 4;
@@ -257,14 +264,22 @@ public class TabRenderer {
                 // Apply rendering hints
                 if (currentScreen instanceof TabRenderingHints) {
                     if (topRow) {
-                        tabInfo.x += ((TabRenderingHints) currentScreen).getTopRowXOffset();
+                        if(isPlayerExLoaded) {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getTopRowXOffset() + 87;
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getTopRowXOffset() + 87;
+                        } else {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getTopRowXOffset();
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getTopRowXOffset();
+                        }
                         tabInfo.y += ((TabRenderingHints) currentScreen).getTopRowYOffset();
-                        tabInfo.itemX += ((TabRenderingHints) currentScreen).getTopRowXOffset();
                         tabInfo.itemY += ((TabRenderingHints) currentScreen).getTopRowYOffset();
                     } else {
-                        if(FabricLoader.getInstance().isModLoaded("biginv")) {
+                        if(isBigInvLoaded) {
                             tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset() - 145;
                             tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset() - 145;
+                        } else if(isPlayerExLoaded) {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset() + 86;
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset() + 86;
                         } else {
                             tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset();
                             tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset();

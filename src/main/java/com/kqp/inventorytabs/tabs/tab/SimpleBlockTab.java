@@ -68,14 +68,15 @@ public class SimpleBlockTab extends Tab {
         if (InventoryTabs.getConfig().doSightChecksFlag) {
             if (BlockUtil.getLineOfSight(blockPos, player, 5D) == null) {
                 return true;
-            }
-        } else {
-            if (!BlockUtil.inRange(blockPos, player, 5D)) {
-                return true;
+            } else {
+                return !BlockUtil.inRange(blockPos, player, 5D);
             }
         }
+        Vec3d playerHead = player.getPos().add(0D, player.getEyeHeight(player.getPose()), 0D);
 
-        return false;
+        return Vec3d.ofCenter(blockPos).subtract(playerHead).lengthSquared() > BlockTabProvider.SEARCH_DISTANCE
+                * BlockTabProvider.SEARCH_DISTANCE;
+
     }
 
     @Override
@@ -94,6 +95,7 @@ public class SimpleBlockTab extends Tab {
         }
 
         return Text.translatable(world.getBlockState(blockPos).getBlock().getTranslationKey());
+
     }
 
     @Override
