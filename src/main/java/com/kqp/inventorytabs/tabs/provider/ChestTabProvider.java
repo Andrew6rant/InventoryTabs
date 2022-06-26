@@ -42,11 +42,8 @@ public class ChestTabProvider extends BlockTabProvider {
 
         for (ChestTab tab : chestTabs) {
             if (!tabsToRemove.contains(tab)) {
-                BlockState blockState = player.world.getBlockState(tab.blockPos);
-                if (blockState.contains(Properties.CHEST_TYPE)) {
-                    if (ChestUtil.isDouble(world, tab.blockPos)) {
-                        tabsToRemove.add(new ChestTab(tab.blockId, ChestUtil.getOtherChestBlockPos(world, tab.blockPos)));
-                    }
+                if (ChestUtil.isDouble(world, tab.blockPos)) {
+                    tabsToRemove.add(new ChestTab(tab.blockId, ChestUtil.getOtherChestBlockPos(world, tab.blockPos)));
                 }
             }
         }

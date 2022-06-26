@@ -31,6 +31,14 @@ public class SimpleBlockTabProvider extends BlockTabProvider {
         blockIds.add(identifier);
     }
 
+    public void removeBlock(Block block) {
+        blockIds.remove(Registry.BLOCK.getId(block));
+    }
+
+    public void removeBlock(Identifier identifier) {
+        blockIds.remove(identifier);
+    }
+
     public Set<Identifier> getBlockIds() {
         return this.blockIds;
     }

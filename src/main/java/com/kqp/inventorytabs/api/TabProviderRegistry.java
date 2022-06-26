@@ -46,13 +46,12 @@ public class TabProviderRegistry {
                 registerSimpleBlock(block);
             }
         });
+        modCompatRemove();
     }
 
-    //private static void addSimpleBlockTabProviders() {
-    //}
-
-    //private static void addModSimpleBlockTabProviders() {
-    //}
+    private static void modCompatRemove() {
+        removeSimpleBlock(new Identifier("tiered", "reforging_station"));
+    }
 
     /**
      * Used to register a block with the simple block tab provider.
@@ -70,6 +69,13 @@ public class TabProviderRegistry {
      */
     public static void registerSimpleBlock(Identifier blockId) {
         SIMPLE_BLOCK_TAB_PROVIDER.addBlock(blockId);
+    }
+
+    public static void removeSimpleBlock(Block block) {
+        SIMPLE_BLOCK_TAB_PROVIDER.removeBlock(block);
+    }
+    public static void removeSimpleBlock(Identifier blockId) {
+        SIMPLE_BLOCK_TAB_PROVIDER.removeBlock(blockId);
     }
 
     /**

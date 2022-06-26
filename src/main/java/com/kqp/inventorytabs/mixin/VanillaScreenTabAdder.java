@@ -10,6 +10,7 @@ import com.kqp.inventorytabs.tabs.tab.SimpleBlockTab;
 import com.kqp.inventorytabs.tabs.tab.Tab;
 import com.kqp.inventorytabs.util.ChestUtil;
 
+import net.fabricmc.loader.api.FabricLoader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -44,6 +45,7 @@ import net.minecraft.world.World;
 @Environment(EnvType.CLIENT)
 @Mixin(HandledScreen.class)
 public class VanillaScreenTabAdder implements TabRenderingHints {
+    private static final boolean isBRBLoaded = FabricLoader.getInstance().isModLoaded("brb"); // Better Recipe Book compat
     @Inject(method = "init", at = @At("RETURN"))
     private void initTabRenderer(CallbackInfo callbackInfo) {
         if (screenSupported()) {
@@ -143,21 +145,22 @@ public class VanillaScreenTabAdder implements TabRenderingHints {
 
     @Override
     public int getTopRowXOffset() {
-        HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
-        if (screen instanceof InventoryScreen) {
-            if (((InventoryScreen) screen).getRecipeBookWidget().isOpen()) {
-                return 77;
-            }
-        } else if (screen instanceof AbstractFurnaceScreen) {
-            if (((AbstractFurnaceScreen<?>) screen).recipeBook.isOpen()) {
-                return 77;
-            }
-        } else if (screen instanceof CraftingScreen) {
-            if (((CraftingScreen) screen).getRecipeBookWidget().isOpen()) {
-                return 77;
+        if (!isBRBLoaded) {
+            HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
+            if (screen instanceof InventoryScreen) {
+                if (((InventoryScreen) screen).getRecipeBookWidget().isOpen()) {
+                    return 77;
+                }
+            } else if (screen instanceof AbstractFurnaceScreen) {
+                if (((AbstractFurnaceScreen<?>) screen).recipeBook.isOpen()) {
+                    return 77;
+                }
+            } else if (screen instanceof CraftingScreen) {
+                if (((CraftingScreen) screen).getRecipeBookWidget().isOpen()) {
+                    return 77;
+                }
             }
         }
-
         return 0;
     }
 
