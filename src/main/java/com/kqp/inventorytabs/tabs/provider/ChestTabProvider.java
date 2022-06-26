@@ -10,8 +10,10 @@ import com.kqp.inventorytabs.tabs.tab.Tab;
 import com.kqp.inventorytabs.util.ChestUtil;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -38,12 +40,13 @@ public class ChestTabProvider extends BlockTabProvider {
         // Add any chests that are blocked
         chestTabs.stream().filter(tab -> ChestBlock.isChestBlocked(world, tab.blockPos)).forEach(tabsToRemove::add);
 
-        for (int i = 0; i < chestTabs.size(); i++) {
-            ChestTab tab = chestTabs.get(i);
-
+        for (ChestTab tab : chestTabs) {
             if (!tabsToRemove.contains(tab)) {
-                if (ChestUtil.isDouble(world, tab.blockPos)) {
-                    tabsToRemove.add(new ChestTab(tab.blockId, ChestUtil.getOtherChestBlockPos(world, tab.blockPos)));
+                BlockState blockState = player.world.getBlockState(tab.blockPos);
+                if (blockState.contains(Properties.CHEST_TYPE)) {
+                    if (ChestUtil.isDouble(world, tab.blockPos)) {
+                        tabsToRemove.add(new ChestTab(tab.blockId, ChestUtil.getOtherChestBlockPos(world, tab.blockPos)));
+                    }
                 }
             }
         }
