@@ -11,13 +11,23 @@ Adds tabs to access nearby blocks without leaving your inventory. Completely cli
 
 </td></tr></table>
 
-Also has [BigInv](https://github.com/SollyW/BigInv) support!
+Also has [BigInv](https://github.com/SollyW/BigInv) and [PlayerEx](https://www.curseforge.com/minecraft/mc-mods/playerex) support!
+
+<table><tr><td width="36.5%">
 
 ![BigInv support](https://raw.githubusercontent.com/Andrew6rant/inventorytabs/1.18.x/.github/resources/BigInv_compat.png)
 
+</td><td width="33.5%">
+
+![PlayerEx support](https://user-images.githubusercontent.com/57331134/175751311-6edb68b4-82f4-4104-ba45-38139303536c.png)
+
+</td></tr></table>
+
+
+
 ## Devs
 ### Importing
-To add **Inventory Tabs** to your project, you need to add ``https://jitpack.io`` as a repo and ``com.github.Andrew6rant:inventorytabs:(mod version)-(Minecraft version)`` as a dependency. For example:
+To add **Inventory Tabs** to your project, you need to add ``https://jitpack.io`` as a repo and ``com.github.Andrew6rant:InventoryTabs:inventorytabs-(mod version)-(Minecraft version)`` as a dependency. For example:
 ```
 repositories {
 	maven {
@@ -26,7 +36,7 @@ repositories {
 }
 
 dependencies {
-	modImplementation "com.github.Andrew6rant:inventorytabs:0.4.4-1.18.x"
+	modImplementation "com.github.Andrew6rant:InventoryTabs:inventorytabs-0.6.1-1.19.x"
 }
 ```
 
@@ -53,4 +63,4 @@ Finally, there are some methods to call for rendering and managing the tabs. In 
 If your screen's GUI dynamically changes (in the case of a recipe book opening), you can implement the ``TabRenderingHints`` interface and offset the top and bottom rows however you like.
 
 ## Credits
-This 1.18 port is based on LiamMCW's fork of the original mod by cakewhip. Full credits can be found at https://github.com/Andrew6rant/inventorytabs/graphs/contributors.
+This 1.18 and 1.19 port is based on LiamMCW's fork of the original mod by cakewhip. Full credits can be found at https://github.com/Andrew6rant/inventorytabs/graphs/contributors.
