@@ -9,6 +9,7 @@ import com.kqp.inventorytabs.init.InventoryTabs;
 import com.kqp.inventorytabs.tabs.provider.*;
 
 import net.minecraft.block.*;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -32,11 +33,13 @@ public class TabProviderRegistry {
     //        InventoryTabs.id("crafting_table_tab_provider"), new CraftingTableTabProvider());
     public static final LecternTabProvider LECTERN_TAB_PROVIDER = (LecternTabProvider) register(
             InventoryTabs.id("lectern_tab_provider"), new LecternTabProvider());
+    public static final InventoryTabProvider INVENTORY_TAB_PROVIDER = (InventoryTabProvider) register(
+            InventoryTabs.id("inventory_tab_provider"), new InventoryTabProvider());
 
 
     public static void init() {
         Registry.BLOCK.forEach(block -> {
-            if (block instanceof BlockWithEntity) {
+            if (block instanceof BlockEntityProvider) {
                 if (block instanceof AbstractChestBlock) {
                     registerChest(block);
                 } else if (!(block instanceof AbstractBannerBlock) && !(block instanceof AbstractSignBlock) && !(block instanceof AbstractSkullBlock) && !(block instanceof BeehiveBlock) && !(block instanceof BellBlock) && !(block instanceof CampfireBlock) && !(block instanceof ConduitBlock) && !(block instanceof DaylightDetectorBlock) && !(block instanceof EndGatewayBlock) && !(block instanceof EndPortalBlock) && !(block instanceof JukeboxBlock) && !(block instanceof PistonExtensionBlock) && !(block instanceof SculkSensorBlock) && !(block instanceof SpawnerBlock)) {
@@ -47,10 +50,57 @@ public class TabProviderRegistry {
             }
         });
         modCompatRemove();
+        //modCompatAdd();
+    }
+
+    private static void modCompatAdd() {
+        registerInventoryTab(new Identifier("onastick", "crafting_table_on_a_stick"));
+        registerInventoryTab(new Identifier("onastick", "smithing_table_on_a_stick"));
+        registerInventoryTab(new Identifier("onastick", "cartography_table_on_a_stick"));
+        registerInventoryTab(new Identifier("onastick", "anvil_on_a_stick"));
+        registerInventoryTab(new Identifier("onastick", "loom_on_a_stick"));
+        registerInventoryTab(new Identifier("onastick", "grindstone_on_a_stick"));
+        registerInventoryTab(new Identifier("onastick", "stonecutter_on_a_stick"));
+
+        registerInventoryTab(new Identifier("craftingpad", "craftingpad"));
     }
 
     private static void modCompatRemove() {
         removeSimpleBlock(new Identifier("tiered", "reforging_station"));
+
+        removeSimpleBlock(new Identifier("techreborn", "basic_machine_casing"));
+        removeSimpleBlock(new Identifier("techreborn", "advanced_machine_casing"));
+        removeSimpleBlock(new Identifier("techreborn", "industrial_machine_casing"));
+        removeSimpleBlock(new Identifier("techreborn", "creative_solar_panel"));
+        removeSimpleBlock(new Identifier("techreborn", "copper_cable"));
+        removeSimpleBlock(new Identifier("techreborn", "tin_cable"));
+        removeSimpleBlock(new Identifier("techreborn", "gold_cable"));
+        removeSimpleBlock(new Identifier("techreborn", "hv_cable"));
+        removeSimpleBlock(new Identifier("techreborn", "glassfiber_cable"));
+        removeSimpleBlock(new Identifier("techreborn", "insulated_copper_cable"));
+        removeSimpleBlock(new Identifier("techreborn", "insulated_gold_cable"));
+        removeSimpleBlock(new Identifier("techreborn", "insulated_hv_cable"));
+        removeSimpleBlock(new Identifier("techreborn", "superconductor_cable"));
+        removeSimpleBlock(new Identifier("techreborn", "resin_basin"));
+        removeSimpleBlock(new Identifier("techreborn", "dragon_egg_syphon"));
+        removeSimpleBlock(new Identifier("techreborn", "lightning_rod"));
+        removeSimpleBlock(new Identifier("techreborn", "water_mill"));
+        removeSimpleBlock(new Identifier("techreborn", "wind_mill"));
+        removeSimpleBlock(new Identifier("techreborn", "drain"));
+        removeSimpleBlock(new Identifier("techreborn", "lsu_storage"));
+        removeSimpleBlock(new Identifier("techreborn", "lv_transformer"));
+        removeSimpleBlock(new Identifier("techreborn", "mv_transformer"));
+        removeSimpleBlock(new Identifier("techreborn", "hv_transformer"));
+        removeSimpleBlock(new Identifier("techreborn", "ev_transformer"));
+        removeSimpleBlock(new Identifier("techreborn", "alarm"));
+        removeSimpleBlock(new Identifier("techreborn", "lamp_incandescent"));
+        removeSimpleBlock(new Identifier("techreborn", "lamp_led"));
+        removeSimpleBlock(new Identifier("techreborn", "computer_cube"));
+
+    }
+
+    public static void registerInventoryTab(Identifier itemId) {
+        INVENTORY_TAB_PROVIDER.addItem(itemId);
     }
 
     /**
@@ -59,6 +109,7 @@ public class TabProviderRegistry {
      * @param block
      */
     public static void registerSimpleBlock(Block block) {
+        //System.out.println("Registering simple block: " + block);
         SIMPLE_BLOCK_TAB_PROVIDER.addBlock(block);
     }
 
