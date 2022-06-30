@@ -12,6 +12,7 @@ import com.kqp.inventorytabs.mixin.accessor.HandledScreenAccessor;
 import com.kqp.inventorytabs.tabs.render.TabRenderInfo;
 import com.kqp.inventorytabs.tabs.render.TabRenderer;
 import com.kqp.inventorytabs.tabs.render.TabRenderingHints;
+import com.kqp.inventorytabs.tabs.tab.PlayerInventoryTab;
 import com.kqp.inventorytabs.tabs.tab.Tab;
 import com.kqp.inventorytabs.util.MouseUtil;
 
@@ -183,7 +184,9 @@ public class TabManager {
         MouseUtil.push();
 
         // Set tab open flag
-        tabOpenedRecently = true;
+        if (!(tab instanceof PlayerInventoryTab)) {
+            tabOpenedRecently = true;
+        }
 
         // Close any handled screens
         // This fixes the inventory desync issue
