@@ -23,6 +23,9 @@
     ],
     "client": [
       "com.kqp.inventorytabs.init.InventoryTabsClient"
+    ],
+    "modmenu": [
+      "com.kqp.inventorytabs.init.InventoryTabsModMenu"
     ]
   },
   "mixins": [
@@ -35,7 +38,14 @@
     "minecraft": "1.19.x",
     "cloth-config2": "*"
   },
+  "custom": {
+    "modmenu": [
+      "com.kqp.inventorytabs.init.InventoryTabsConfig"
+    ]
+  },
   "suggests": {
-    "biginv": "*"
+    "biginv": "*",
+    "playerex": "*",
+    "modmenu": "*"
   }
 }

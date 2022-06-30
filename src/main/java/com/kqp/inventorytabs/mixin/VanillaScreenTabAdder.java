@@ -11,6 +11,7 @@ import com.kqp.inventorytabs.tabs.tab.Tab;
 import com.kqp.inventorytabs.util.ChestUtil;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.gui.screen.ingame.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,22 +22,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.AbstractFurnaceScreen;
-import net.minecraft.client.gui.screen.ingame.AnvilScreen;
-import net.minecraft.client.gui.screen.ingame.BrewingStandScreen;
-import net.minecraft.client.gui.screen.ingame.CartographyTableScreen;
-import net.minecraft.client.gui.screen.ingame.CraftingScreen;
-import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
-import net.minecraft.client.gui.screen.ingame.Generic3x3ContainerScreen;
-import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
-import net.minecraft.client.gui.screen.ingame.GrindstoneScreen;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.ingame.HopperScreen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.gui.screen.ingame.LoomScreen;
-import net.minecraft.client.gui.screen.ingame.ShulkerBoxScreen;
-import net.minecraft.client.gui.screen.ingame.SmithingScreen;
-import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -176,15 +161,7 @@ public class VanillaScreenTabAdder implements TabRenderingHints {
 
     private boolean screenSupported() {
         HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
-
-        return screen instanceof GenericContainerScreen || screen instanceof InventoryScreen
-                || screen instanceof AbstractFurnaceScreen || screen instanceof AnvilScreen
-                || screen instanceof CraftingScreen || screen instanceof ShulkerBoxScreen
-                || screen instanceof EnchantmentScreen || screen instanceof BrewingStandScreen
-                || screen instanceof SmithingScreen || screen instanceof CartographyTableScreen
-                || screen instanceof LoomScreen || screen instanceof StonecutterScreen
-                || screen instanceof GrindstoneScreen || screen instanceof HopperScreen
-                || screen instanceof Generic3x3ContainerScreen;
+        return !(screen instanceof CreativeInventoryScreen);
     }
 
     private boolean screenDoesDumbBlock() {
