@@ -213,11 +213,7 @@ public class TabRenderer {
 
                 // Calc y value
                 if (topRow) {
-                    tabInfo.y = y - 26;
-
-                    if (selected) {
-                        tabInfo.y = y - 28;
-                    }
+                    tabInfo.y = y - 28;
                 } else {
                     if(isBigInvLoaded) {
                         tabInfo.y = y + ((HandledScreenAccessor) currentScreen).getBackgroundHeight() + 32;
