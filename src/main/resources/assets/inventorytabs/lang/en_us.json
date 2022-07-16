@@ -8,5 +8,6 @@
   "text.autoconfig.inventory_tabs.option.excludeTab.@Tooltip": "Format: §emod_name:block_id§r",
   "text.autoconfig.inventory_tabs.option.includeTab": "§nForce show§r tabs for these blocks:",
   "text.autoconfig.inventory_tabs.option.includeTab.@Tooltip": "Format: §emod_name:block_id§r",
-  "text.autoconfig.inventory_tabs.option.debugEnabled": "Print debugging information (tab IDs added/removed) in the log"
+  "text.autoconfig.inventory_tabs.option.debugEnabled": "Print debugging information (tab IDs added/removed) in the log",
+  "inventorytabs.key.next_tab": "Cycle Inventory Tab"
 }

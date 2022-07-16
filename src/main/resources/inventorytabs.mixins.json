@@ -4,16 +4,20 @@
   "package": "com.kqp.inventorytabs.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "accessor.HandledScreenAccessor",
-    "accessor.ScreenAccessor",
     "CartographyTableScreenTabAdder",
     "LoomScreenTabAdder",
+    "ShulkerBoxBlockInvoker",
     "StonecutterScreenTabAdder",
     "TabManagerContainerImplementer",
     "VanillaScreenTabAdder",
-    "ShulkerBoxBlockInvoker"
+    "accessor.HandledScreenAccessor",
+    "accessor.ScreenAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "ControlsListWidget$KeyBindingEntryMixin_SoftConflict",
+    "KeyBindingMixin_SoftConflict"
+  ]
 }

@@ -3,6 +3,7 @@ package com.kqp.inventorytabs.mixin;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.kqp.inventorytabs.init.InventoryTabsClient;
 import com.kqp.inventorytabs.interf.TabManagerContainer;
 import com.kqp.inventorytabs.tabs.TabManager;
 import com.kqp.inventorytabs.tabs.render.TabRenderingHints;
@@ -11,6 +12,8 @@ import com.kqp.inventorytabs.tabs.tab.Tab;
 import com.kqp.inventorytabs.util.ChestUtil;
 
 import net.fabricmc.loader.api.FabricLoader;
+
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,17 +26,23 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 @Environment(EnvType.CLIENT)
 @Mixin(HandledScreen.class)
-public class VanillaScreenTabAdder implements TabRenderingHints {
+public abstract class VanillaScreenTabAdder extends Screen implements TabRenderingHints {
     private static final boolean isBRBLoaded = FabricLoader.getInstance().isModLoaded("brb"); // Better Recipe Book compat
+    
+    protected VanillaScreenTabAdder(Text title) {
+        super(title);
+    }
+    
     @Inject(method = "init", at = @At("RETURN"))
     private void initTabRenderer(CallbackInfo callbackInfo) {
-        if (screenSupported()) {
+        if (InventoryTabsClient.screenSupported(this)) {
             MinecraftClient client = MinecraftClient.getInstance();
             TabManager tabManager = ((TabManagerContainer) client).getTabManager();
 
@@ -84,7 +93,7 @@ public class VanillaScreenTabAdder implements TabRenderingHints {
     @Inject(method = "render", at = @At("HEAD"))
     protected void drawBackgroundTabs(MatrixStack matrices, int mouseX, int mouseY, float delta,
             CallbackInfo callbackInfo) {
-        if (screenSupported()) {
+        if (InventoryTabsClient.screenSupported(this)) {
             if (!screenDoesDumbBlock()) {
                 MinecraftClient client = MinecraftClient.getInstance();
                 TabManager tabManager = ((TabManagerContainer) client).getTabManager();
@@ -97,7 +106,7 @@ public class VanillaScreenTabAdder implements TabRenderingHints {
     @Inject(method = "render", at = @At("TAIL"))
     protected void drawForegroundTabs(MatrixStack matrices, int mouseX, int mouseY, float delta,
             CallbackInfo callbackInfo) {
-        if (screenSupported()) {
+        if (InventoryTabsClient.screenSupported(this)) {
             MinecraftClient client = MinecraftClient.getInstance();
             TabManager tabManager = ((TabManagerContainer) client).getTabManager();
 
@@ -108,7 +117,7 @@ public class VanillaScreenTabAdder implements TabRenderingHints {
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     public void mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> callbackInfo) {
-        if (screenSupported()) {
+        if (InventoryTabsClient.screenSupported(this)) {
             TabManager tabManager = ((TabManagerContainer) MinecraftClient.getInstance()).getTabManager();
 
             if (tabManager.mouseClicked(mouseX, mouseY, button)) {
@@ -119,7 +128,7 @@ public class VanillaScreenTabAdder implements TabRenderingHints {
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> callbackInfo) {
-        if (screenSupported()) {
+        if (InventoryTabsClient.screenSupported(this)) {
             TabManager tabManager = ((TabManagerContainer) MinecraftClient.getInstance()).getTabManager();
 
             if (tabManager.keyPressed(keyCode, scanCode, modifiers)) {
@@ -158,12 +167,7 @@ public class VanillaScreenTabAdder implements TabRenderingHints {
     public int getBottomRowYOffset() {
         return screenNeedsOffset() ? -1 : 0;
     }
-
-    private boolean screenSupported() {
-        HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
-        return !(screen instanceof CreativeInventoryScreen);
-    }
-
+    
     private boolean screenDoesDumbBlock() {
         HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
 

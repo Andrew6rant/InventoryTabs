@@ -22,10 +22,12 @@ import org.lwjgl.glfw.GLFW;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundEvents;
 
 /**
@@ -148,9 +150,7 @@ public class TabManager {
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (InventoryTabsClient.NEXT_TAB_KEY_BIND.matchesKey(keyCode, scanCode)) {
             int currentTabIndex = tabs.indexOf(currentTab);
-
-            if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
-                    GLFW.GLFW_KEY_LEFT_SHIFT)) {
+            if (Screen.hasShiftDown()) {
                 if (currentTabIndex > 0) {
                     onTabClick(tabs.get(currentTabIndex - 1));
                 } else {
