@@ -30,13 +30,13 @@ import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundEvents;
 
+import static com.kqp.inventorytabs.init.InventoryTabs.*;
+
 /**
  * Manages everything related to tabs.
  */
 @Environment(EnvType.CLIENT)
 public class TabManager {
-    public final boolean isBigInvLoaded = FabricLoader.getInstance().isModLoaded("biginv");
-    public final boolean isPlayerExLoaded = FabricLoader.getInstance().isModLoaded("playerex");
     public final List<Tab> tabs;
     public Tab currentTab;
 
@@ -214,8 +214,7 @@ public class TabManager {
         int index = tabs.indexOf(tab);
         if(isBigInvLoaded) {
             return index / (getMaxRowLength() * 2 + 5);
-        } else if(isPlayerExLoaded) {
-            //System.out.println("getMaxRowLength() = " + getMaxRowLength() + ", getMaxRowLength() * 2 - 3 = " + (getMaxRowLength() * 2 - 3));
+        } else if(isPlayerExLoaded || isLevelzLoaded) {
             return index / (getMaxRowLength() * 2 - 2);
         } else {
             return index / (getMaxRowLength() * 2);
@@ -241,6 +240,8 @@ public class TabManager {
         int maxRowLength = getMaxRowLength() * 2;
         if (isPlayerExLoaded) {
             maxRowLength =- 3;
+        } else if (isLevelzLoaded) {
+            maxRowLength =- 2;
         }
         if (page > 0 && tabs.size() < maxRowLength) {
             System.err.println("Not enough tabs to paginate, ignoring");
@@ -270,6 +271,8 @@ public class TabManager {
             return tabs.size() / (getMaxRowLength() * 2 + 6);
         } else if(isPlayerExLoaded) {
             return tabs.size() / (getMaxRowLength() * 2 - 2);
+        } else if(isLevelzLoaded) {
+            return tabs.size() / (getMaxRowLength() * 2 - 1);
         } else {
             return tabs.size() / (getMaxRowLength() * 2 + 1);
         }

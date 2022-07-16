@@ -6,12 +6,17 @@ import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 
 public class InventoryTabs implements ModInitializer {
     public static final String ID = "inventorytabs";
     static ConfigHolder<InventoryTabsConfig> inventoryTabsConfig;
+
+    public static boolean isBigInvLoaded;
+    public static boolean isPlayerExLoaded;
+    public static boolean isLevelzLoaded;
 
     public static Identifier id(String path) {
         return new Identifier(ID, path);
@@ -25,6 +30,10 @@ public class InventoryTabs implements ModInitializer {
             return ActionResult.success(true);
         });
         ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> TabProviderRegistry.init("reload"));
+
+        isBigInvLoaded = FabricLoader.getInstance().isModLoaded("biginv");
+        isPlayerExLoaded = FabricLoader.getInstance().isModLoaded("playerex");
+        isLevelzLoaded = FabricLoader.getInstance().isModLoaded("levelz");
     }
 
     public static InventoryTabsConfig getConfig() {

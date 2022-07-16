@@ -17,13 +17,13 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
+import static com.kqp.inventorytabs.init.InventoryTabs.*;
+
 /**
  * Handles the rendering of tabs.
  */
 @Environment(EnvType.CLIENT)
 public class TabRenderer {
-    public static final boolean isBigInvLoaded = FabricLoader.getInstance().isModLoaded("biginv");
-    public static final boolean isPlayerExLoaded = FabricLoader.getInstance().isModLoaded("playerex");
     private static final Identifier TABS_TEXTURE = new Identifier("textures/gui/container/creative_inventory/tabs.png");
     private static final Identifier BUTTONS_TEXTURE = InventoryTabs.id("textures/gui/buttons.png");
 
@@ -180,7 +180,9 @@ public class TabRenderer {
             numVisibleTabs = (maxRowLength * 2) + 5;
         } else if (isPlayerExLoaded) {
             numVisibleTabs = (maxRowLength * 2) - 3;
-        } else {
+        } else if (isLevelzLoaded) {
+            numVisibleTabs = (maxRowLength * 2) - 2;
+        }else {
             numVisibleTabs = maxRowLength * 2;
         }
         int startingIndex = tabManager.currentPage * numVisibleTabs;
@@ -197,6 +199,8 @@ public class TabRenderer {
                 boolean topRow = i < maxRowLength;
                 if(isPlayerExLoaded) {
                     topRow = i < maxRowLength - 3;
+                } else if(isLevelzLoaded) {
+                    topRow = i < maxRowLength - 2;
                 }
                 boolean selected = tab == tabManager.currentTab;
 
@@ -263,7 +267,10 @@ public class TabRenderer {
                         if(isPlayerExLoaded) {
                             tabInfo.x += ((TabRenderingHints) currentScreen).getTopRowXOffset() + 87;
                             tabInfo.itemX += ((TabRenderingHints) currentScreen).getTopRowXOffset() + 87;
-                        } else {
+                        } else if(isLevelzLoaded) {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getTopRowXOffset() + 54;
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getTopRowXOffset() + 54;
+                        }else {
                             tabInfo.x += ((TabRenderingHints) currentScreen).getTopRowXOffset();
                             tabInfo.itemX += ((TabRenderingHints) currentScreen).getTopRowXOffset();
                         }
@@ -276,7 +283,10 @@ public class TabRenderer {
                         } else if(isPlayerExLoaded) {
                             tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset() + 86;
                             tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset() + 86;
-                        } else {
+                        } else if(isLevelzLoaded) {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset() + 60;
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset() + 60;
+                        }else {
                             tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset();
                             tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset();
                         }
