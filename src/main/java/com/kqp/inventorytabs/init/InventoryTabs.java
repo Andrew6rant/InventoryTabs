@@ -3,7 +3,7 @@ package com.kqp.inventorytabs.init;
 import com.kqp.inventorytabs.api.TabProviderRegistry;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -25,7 +25,7 @@ public class InventoryTabs implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        inventoryTabsConfig = AutoConfig.register(InventoryTabsConfig.class, JanksonConfigSerializer::new);
+        inventoryTabsConfig = AutoConfig.register(InventoryTabsConfig.class, GsonConfigSerializer::new);
         inventoryTabsConfig.registerSaveListener((configHolder, config) -> {
             TabProviderRegistry.init("save");
             return ActionResult.success(true);

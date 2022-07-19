@@ -23,7 +23,7 @@ public class InventoryTabsConfig implements ConfigData {
     );
 
     @ConfigEntry.Gui.Tooltip
-    public List<String> includeTab = new ArrayList<>();
+    public List<String> includeTab = Arrays.asList();
 
     public boolean debugEnabled = false;
 }
