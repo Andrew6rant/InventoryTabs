@@ -1,0 +1,33 @@
+{
+  "replace": false,
+  "values": [
+    {"id": "techreborn:basic_machine_casing", "required": false},
+    {"id": "techreborn:advanced_machine_casing", "required": false},
+    {"id": "techreborn:industrial_machine_casing", "required": false},
+    {"id": "techreborn:creative_solar_panel", "required": false},
+    {"id": "techreborn:copper_cable", "required": false},
+    {"id": "techreborn:tin_cable", "required": false},
+    {"id": "techreborn:gold_cable", "required": false},
+    {"id": "techreborn:hv_cable", "required": false},
+    {"id": "techreborn:glassfiber_cable", "required": false},
+    {"id": "techreborn:insulated_copper_cable", "required": false},
+    {"id": "techreborn:insulated_gold_cable", "required": false},
+    {"id": "techreborn:insulated_hv_cable", "required": false},
+    {"id": "techreborn:superconductor_cable", "required": false},
+    {"id": "techreborn:resin_basin", "required": false},
+    {"id": "techreborn:dragon_egg_syphon", "required": false},
+    {"id": "techreborn:lightning_rod", "required": false},
+    {"id": "techreborn:water_mill", "required": false},
+    {"id": "techreborn:wind_mill", "required": false},
+    {"id": "techreborn:drain", "required": false},
+    {"id": "techreborn:lsu_storage", "required": false},
+    {"id": "techreborn:lv_transformer", "required": false},
+    {"id": "techreborn:mv_transformer", "required": false},
+    {"id": "techreborn:hv_transformer", "required": false},
+    {"id": "techreborn:ev_transformer", "required": false},
+    {"id": "techreborn:alarm", "required": false},
+    {"id": "techreborn:lamp_incandescent", "required": false},
+    {"id": "techreborn:lamp_led", "required": false},
+    {"id": "techreborn:computer_cube", "required": false}
+  ]
+}

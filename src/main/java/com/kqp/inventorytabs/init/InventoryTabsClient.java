@@ -23,8 +23,6 @@ public class InventoryTabsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        TabProviderRegistry.init("load");
-
         // Handle state of tab managerInventoryTabsClient
         ClientTickEvents.START_WORLD_TICK.register(world -> {
             MinecraftClient client = MinecraftClient.getInstance();

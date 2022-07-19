@@ -60,6 +60,12 @@ public class TabManager {
     public void setCurrentTab(Tab tab) {
         this.currentTab = tab;
     }
+    public void removeTabs() {
+        for (int i = 0; i < tabs.size(); i++) {
+            tabs.remove(i);
+            i--;
+        }
+    }
 
     private void refreshAvailableTabs() {
         // Remove old ones

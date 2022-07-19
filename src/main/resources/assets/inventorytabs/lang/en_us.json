@@ -5,7 +5,7 @@
   "text.autoconfig.inventory_tabs.option.rotatePlayer": "Rotate the player to face the tab's block",
   "text.autoconfig.inventory_tabs.option.rotatePlayer.@Tooltip": "If §aYes§r, the player will snap to position",
   "text.autoconfig.inventory_tabs.option.excludeTab": "§nDo not show§r tabs for these blocks:",
-  "text.autoconfig.inventory_tabs.option.excludeTab.@Tooltip": "Format: §emod_name:block_id§r",
+  "text.autoconfig.inventory_tabs.option.excludeTab.@Tooltip": "Format: §emod_name:block_id§r, or §emod_name:tag_id§r",
   "text.autoconfig.inventory_tabs.option.includeTab": "§nForce show§r tabs for these blocks:",
   "text.autoconfig.inventory_tabs.option.includeTab.@Tooltip": "Format: §emod_name:block_id§r",
   "text.autoconfig.inventory_tabs.option.debugEnabled": "Print debugging information (tab IDs added/removed) in the log",
