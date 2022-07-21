@@ -2,6 +2,7 @@ package com.kqp.inventorytabs.tabs.tab;
 
 import com.kqp.inventorytabs.mixin.accessor.ScreenAccessor;
 import com.kqp.inventorytabs.tabs.render.TabRenderInfo;
+import com.kqp.inventorytabs.util.ChestUtil;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -21,6 +22,8 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+
+import static com.kqp.inventorytabs.util.ChestUtil.getOtherChestBlockPos;
 
 /**
  * Tab for chests
@@ -64,10 +67,14 @@ public class ChestTab extends SimpleBlockTab {
 
     public ItemStack getItemFrame() {
         World world = MinecraftClient.getInstance().player.world;
-        itemStack = new ItemStack(MinecraftClient.getInstance().player.world.getBlockState(blockPos).getBlock());
-        List<ItemFrameEntity> list1 = world.getNonSpectatingEntities(ItemFrameEntity.class, new Box(blockPos.getX()-0.8, blockPos.getY(), blockPos.getZ(), blockPos.getX()+1.8, blockPos.getY()+0.8, blockPos.getZ()+0.8));
-        List<ItemFrameEntity> list2 = world.getNonSpectatingEntities(ItemFrameEntity.class, new Box(blockPos.getX(), blockPos.getY(), blockPos.getZ()-0.8, blockPos.getX()+0.8, blockPos.getY()+0.8, blockPos.getZ()+1.8));
-        List<ItemFrameEntity> list3 = world.getNonSpectatingEntities(ItemFrameEntity.class, new Box(blockPos.getX(), blockPos.getY()-0.8, blockPos.getZ(), blockPos.getX()+0.8, blockPos.getY()+1.8, blockPos.getZ()+0.8));
+        itemStack = new ItemStack(world.getBlockState(blockPos).getBlock());
+        BlockPos doubleChestPos = ChestUtil.isDouble(world, blockPos) ? getOtherChestBlockPos(world, blockPos) : blockPos;
+        Box box = new Box(blockPos, doubleChestPos);
+        double x = box.minX;    double y = box.minY;    double z = box.minZ;
+        double x1 = box.maxX;   double y1 = box.maxY;   double z1 = box.maxZ;
+        List<ItemFrameEntity> list1 = world.getNonSpectatingEntities(ItemFrameEntity.class, new Box(x-0.8, y, z, x1+1.8, y1+0.8, z1+0.8));
+        List<ItemFrameEntity> list2 = world.getNonSpectatingEntities(ItemFrameEntity.class, new Box(x, y, z-0.8, x1+0.8, y1+0.8, z1+1.8));
+        List<ItemFrameEntity> list3 = world.getNonSpectatingEntities(ItemFrameEntity.class, new Box(x, y-0.8, z, x1+0.8, y1+1.8, z1+0.8));
         List<ItemFrameEntity> list = new ArrayList<>();
         Stream.of(list1, list2, list3).forEach(list::addAll);
         if (!list.isEmpty()) {
