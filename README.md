@@ -23,6 +23,10 @@ Also has [BigInv](https://github.com/SollyW/BigInv) and [PlayerEx](https://www.c
 
 </td></tr></table>
 
+New in 0.8.1: Chest icons and hover text can be changed by nearby item frames!
+
+![InventoryTabs-nearby-item-frames](https://user-images.githubusercontent.com/57331134/180107483-11429056-8e99-4529-ad7d-7091032fb9aa.gif)
+
 
 
 ## Devs
