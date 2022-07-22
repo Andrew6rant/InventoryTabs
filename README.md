@@ -27,6 +27,17 @@ New in 0.8.1: Chest icons and hover text can be changed by nearby item frames!
 
 ![InventoryTabs-nearby-item-frames](https://user-images.githubusercontent.com/57331134/180107483-11429056-8e99-4529-ad7d-7091032fb9aa.gif)
 
+New in 0.9.0: Entity support!
+
+<table><tr><td width="38%">
+
+![Chest Minecart showcase](https://user-images.githubusercontent.com/57331134/180368210-2510a9a3-0efb-49c9-9a1b-66b137739bf9.gif)
+
+</td><td width="32%">
+
+![Villager inventory showcase](https://user-images.githubusercontent.com/57331134/180335139-9db9e488-9e1d-467f-9877-13db22173453.png)
+
+</td></tr></table>
 
 
 ## Devs
