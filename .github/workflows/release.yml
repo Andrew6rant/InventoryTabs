@@ -27,7 +27,8 @@ jobs:
           modrinth-unfeature-mode: intersection
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          version-type: release
+          version-type: beta
+          version-resolver: all
           loaders: |
             fabric
             quilt
