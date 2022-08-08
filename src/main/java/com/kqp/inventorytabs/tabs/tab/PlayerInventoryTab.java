@@ -4,6 +4,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 
 /**
@@ -27,7 +28,7 @@ public class PlayerInventoryTab extends Tab {
 
     @Override
     public Text getHoverText() {
-        return Text.literal("Inventory");
+        return new LiteralText("Inventory");
     }
 
     @Override
