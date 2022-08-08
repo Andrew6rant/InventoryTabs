@@ -33,9 +33,9 @@
   ],
   "accessWidener": "inventorytabs.accesswidener",
   "depends": {
-    "fabricloader": ">=0.14.7",
-    "fabric": ">=0.55.3",
-    "minecraft": "1.19.x",
+    "fabricloader": ">=0.14.9",
+    "fabric": ">=0.42.0",
+    "minecraft": "1.16.x",
     "cloth-config2": "*"
   },
   "custom": {
