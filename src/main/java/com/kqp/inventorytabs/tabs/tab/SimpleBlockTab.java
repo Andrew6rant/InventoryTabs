@@ -87,7 +87,7 @@ public class SimpleBlockTab extends Tab {
 
         if (blockEntity != null) {
             NbtCompound tag = new NbtCompound();
-            blockEntity.writeNbt(tag); // had to use an accesswidener for this in 1.18
+            // blockEntity.writeNbt(tag); // temporarily removing this because writeNBT was changed to protected
 
             if (tag.contains("CustomName", 8)) {
                 return Text.Serializer.fromJson(tag.getString("CustomName"));

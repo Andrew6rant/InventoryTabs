@@ -31,7 +31,6 @@
   "mixins": [
     "inventorytabs.mixins.json"
   ],
-  "accessWidener": "inventorytabs.accesswidener",
   "depends": {
     "fabricloader": ">=0.14.9",
     "fabric": ">=0.42.0",
