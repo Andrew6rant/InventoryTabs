@@ -3,7 +3,6 @@ package com.kqp.inventorytabs.tabs.provider;
 import com.kqp.inventorytabs.tabs.tab.Tab;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.InventoryOwner;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.InventoryChangedListener;
@@ -21,7 +20,7 @@ public abstract class EntityTabProvider implements TabProvider {
         List<Entity> entityList = world.getNonSpectatingEntities(Entity.class, new Box(player.getBlockPos().getX()-SEARCH_DISTANCE, player.getBlockPos().getY()-SEARCH_DISTANCE, player.getBlockPos().getZ()-SEARCH_DISTANCE, player.getBlockPos().getX()+SEARCH_DISTANCE, player.getBlockPos().getY()+SEARCH_DISTANCE, player.getBlockPos().getZ()+SEARCH_DISTANCE));
 
         for (Entity entity : entityList) {
-            if (!(entity instanceof PlayerEntity) && ((entity instanceof Inventory) || (entity instanceof InventoryOwner) || (entity instanceof InventoryChangedListener))) {
+            if (!(entity instanceof PlayerEntity) && ((entity instanceof Inventory) || (entity instanceof InventoryChangedListener))) {
                 if (matches(entity)) {
                     boolean add = false;
 

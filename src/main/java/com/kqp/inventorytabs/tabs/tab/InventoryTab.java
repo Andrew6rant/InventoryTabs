@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
@@ -32,11 +33,11 @@ public class InventoryTab extends Tab {
     @Override
     public boolean shouldBeRemoved() {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        return (player == null || !player.getInventory().contains(new ItemStack(itemId)));
+        return (player == null || !player.inventory.contains(new ItemStack(itemId)));
     }
 
     @Override
     public Text getHoverText() {
-        return Text.literal(itemId.getName().getString());
+        return new LiteralText(itemId.getName().getString());
     }
 }

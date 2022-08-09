@@ -25,7 +25,7 @@ public class InventoryTabProvider implements TabProvider {
     public void addAvailableTabs(ClientPlayerEntity player, List<Tab> tabs) {
         Set<Item> itemSet = inventoryItems.stream().map(Registry.ITEM::get).collect(Collectors.toSet());
         for (Item item : itemSet) {
-            if (player.getInventory().contains(new ItemStack(item))) {
+            if (player.inventory.contains(new ItemStack(item))) {
                 Tab tab = new InventoryTab(item);
                 if (tabs.stream().filter(c -> c instanceof InventoryTab).noneMatch(c -> ((InventoryTab) c).itemId == item)) {
                     tabs.add(tab);

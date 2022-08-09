@@ -8,9 +8,13 @@ import com.kqp.inventorytabs.tabs.provider.*;
 
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.tag.TagKey;
+import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagContainer;
+import net.minecraft.tag.TagContainers;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -61,7 +65,7 @@ public class TabProviderRegistry {
             if (block instanceof BlockEntityProvider) {
                 if (block instanceof AbstractChestBlock) {
                     registerChest(block);
-                } else if (!(block instanceof AbstractBannerBlock) && !(block instanceof AbstractSignBlock) && !(block instanceof AbstractSkullBlock) && !(block instanceof BeehiveBlock) && !(block instanceof BedBlock) && !(block instanceof BellBlock) && !(block instanceof CampfireBlock) && !(block instanceof ComparatorBlock) && !(block instanceof ConduitBlock) && !(block instanceof DaylightDetectorBlock) && !(block instanceof EndGatewayBlock) && !(block instanceof EndPortalBlock) && !(block instanceof JukeboxBlock) && !(block instanceof PistonExtensionBlock) && !(block instanceof SculkSensorBlock) && !(block instanceof SpawnerBlock)) {
+                } else if (!(block instanceof AbstractBannerBlock) && !(block instanceof AbstractSignBlock) && !(block instanceof AbstractSkullBlock) && !(block instanceof BeehiveBlock) && !(block instanceof BedBlock) && !(block instanceof BellBlock) && !(block instanceof CampfireBlock) && !(block instanceof ComparatorBlock) && !(block instanceof ConduitBlock) && !(block instanceof DaylightDetectorBlock) && !(block instanceof EndGatewayBlock) && !(block instanceof EndPortalBlock) && !(block instanceof JukeboxBlock) && !(block instanceof PistonExtensionBlock) && !(block instanceof SpawnerBlock)) {
                     registerSimpleBlock(block);
                 }
             } else if (block instanceof CraftingTableBlock && !(block instanceof FletchingTableBlock) || block instanceof AnvilBlock || block instanceof CartographyTableBlock || block instanceof GrindstoneBlock || block instanceof LoomBlock || block instanceof StonecutterBlock) {
@@ -89,6 +93,7 @@ public class TabProviderRegistry {
         registerInventoryTab(new Identifier("onastick", "stonecutter_on_a_stick"));
         registerInventoryTab(new Identifier("craftingpad", "craftingpad"));
     }
+
     public static boolean isValid(String overrideEntry, String[] splitEntry, Set<String> invalidSet) {
         if (splitEntry.length != 2) {
             invalidSet.add(overrideEntry);
@@ -96,6 +101,7 @@ public class TabProviderRegistry {
         }
         return true;
     }
+
     private static void configRemove(Set<String> blockSet) {
         for (String overrideEntry : blockSet) {
             if (InventoryTabs.getConfig().debugEnabled) {
@@ -104,13 +110,15 @@ public class TabProviderRegistry {
             removeSimpleBlock(new Identifier(overrideEntry));
         }
     }
+
     private static void configRemove(Block block, Set<String> tagSet, Set<String> invalidSet) {
         for (String overrideEntry : tagSet) {
             String[] splitEntry = overrideEntry.split(":"); // split into two parts: tag id, item name
             if (isValid(overrideEntry, splitEntry, invalidSet)) {
-                List<TagKey<Block>> blockStream = block.getRegistryEntry().streamTags().toList();
-                for (TagKey<Block> tagKey : blockStream) {
-                    if (block.getRegistryEntry().isIn(TagKey.of(BLOCK_KEY, new Identifier(splitEntry[0], splitEntry[1])))) {
+                TagContainer<Block> blocks = TagContainers.instance().blocks();
+                Collection<Identifier> blockStream = blocks.getTagsFor(block);
+                for (Identifier tagKey : blockStream) {
+                    if (block.isIn(blocks.get(new Identifier(splitEntry[0], splitEntry[1])))) {
                         removeSimpleBlock(block);
                         if (InventoryTabs.getConfig().debugEnabled) {
                             LOGGER.info("Excluding: " + block);
@@ -129,6 +137,7 @@ public class TabProviderRegistry {
             registerSimpleBlock(new Identifier(included_tab));
         }
     }
+
     public static void registerInventoryTab(Identifier itemId) {
         INVENTORY_TAB_PROVIDER.addItem(itemId);
     }
@@ -157,9 +166,11 @@ public class TabProviderRegistry {
         SIMPLE_BLOCK_TAB_PROVIDER.addBlock(blockId);
     }
 
+
     public static void removeSimpleBlock(Block block) {
         SIMPLE_BLOCK_TAB_PROVIDER.removeBlock(block);
     }
+
     public static void removeSimpleBlock(Identifier blockId) {
         SIMPLE_BLOCK_TAB_PROVIDER.removeBlock(blockId);
     }
@@ -201,7 +212,6 @@ public class TabProviderRegistry {
 
     public static TabProvider register(Identifier id, TabProvider tabProvider) {
         TAB_PROVIDERS.put(id, tabProvider);
-
         return tabProvider;
     }
 

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
 @Mixin(KeyBinding.class)

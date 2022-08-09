@@ -7,7 +7,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
+import net.minecraft.world.RayTraceContext;
 import net.minecraft.world.World;
 
 public class BlockUtil {
@@ -55,8 +55,8 @@ public class BlockUtil {
             return null;
         }
 
-        BlockHitResult result = world.raycast(new RaycastContext(playerHead, blockVec, RaycastContext.ShapeType.OUTLINE,
-                RaycastContext.FluidHandling.NONE, MinecraftClient.getInstance().player));
+        BlockHitResult result = world.rayTrace(new RayTraceContext(playerHead, blockVec, RayTraceContext.ShapeType.OUTLINE,
+                RayTraceContext.FluidHandling.NONE, MinecraftClient.getInstance().player));
 
         if (result != null && result.getType() == HitResult.Type.BLOCK && result.getBlockPos().equals(pos)) {
             return result;

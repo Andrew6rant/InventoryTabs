@@ -11,6 +11,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
@@ -37,7 +38,7 @@ public class SimpleEntityTab extends Tab {
 
     @Override
     public boolean shouldBeRemoved() {
-        if (entity.isRemoved()) {
+        if (entity.removed) {
             return true;
         }
         return entityPos.distanceTo(MinecraftClient.getInstance().player.getPos()) > 5;
@@ -77,6 +78,7 @@ public class SimpleEntityTab extends Tab {
     }
 
     public ItemStack getItemStack() {
-        return entity.getPickBlockStack() != null ? entity.getPickBlockStack() : new ItemStack(Registry.ITEM.get(new Identifier("minecraft", "barrier")));
+        ItemStack pickBlockResult = new ItemStack(SpawnEggItem.forEntity(entity.getType()));
+        return pickBlockResult != null ? pickBlockResult : new ItemStack(Registry.ITEM.get(new Identifier("minecraft", "barrier")));
     }
 }
