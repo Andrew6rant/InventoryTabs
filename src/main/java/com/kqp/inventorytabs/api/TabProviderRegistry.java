@@ -9,6 +9,7 @@ import com.kqp.inventorytabs.tabs.provider.*;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.tag.BlockTags;
+import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -110,7 +111,8 @@ public class TabProviderRegistry {
         for (String overrideEntry : tagSet) {
             String[] splitEntry = overrideEntry.split(":"); // split into two parts: tag id, item name
             if (isValid(overrideEntry, splitEntry, invalidSet)) {
-                if (block.isIn(BlockTags.getTagGroup().getTag(new Identifier(splitEntry[0], splitEntry[1])))) {
+                Tag<Block> blockTag = BlockTags.getTagGroup().getTag(new Identifier(splitEntry[0], splitEntry[1]));
+                if (blockTag != null && block.isIn(blockTag)) {
                     removeSimpleBlock(block);
                     if (InventoryTabs.getConfig().debugEnabled) {
                         LOGGER.info("Excluding: " + block);
