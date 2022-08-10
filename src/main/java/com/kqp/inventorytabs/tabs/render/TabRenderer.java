@@ -166,9 +166,7 @@ public class TabRenderer {
                 Rectangle itemRec = new Rectangle(tabRenderInfo.itemX, tabRenderInfo.itemY, 16, 16);
 
                 if (itemRec.contains(mouseX, mouseY)) {
-                    List<Text> tooltip = new ArrayList<Text>(1);
-                    tooltip.add(tabRenderInfo.tabReference.getHoverText());
-                    tabManager.getCurrentScreen().method_30901(matrices, tooltip,
+                    tabManager.getCurrentScreen().renderTooltip(matrices, tabRenderInfo.tabReference.getHoverText(),
                             (int) mouseX, (int) mouseY);
                 }
             }

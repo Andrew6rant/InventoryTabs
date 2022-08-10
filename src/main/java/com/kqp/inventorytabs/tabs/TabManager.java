@@ -22,7 +22,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket;
+import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.sound.SoundEvents;
 
 import static com.kqp.inventorytabs.init.InventoryTabs.*;
@@ -194,7 +194,7 @@ public class TabManager {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player.currentScreenHandler != null) {
             client.getNetworkHandler()
-                    .sendPacket(new GuiCloseC2SPacket(client.player.currentScreenHandler.syncId));
+                    .sendPacket(new CloseHandledScreenC2SPacket(client.player.currentScreenHandler.syncId));
         }
 
         // Open new tab
@@ -296,4 +296,3 @@ public class TabManager {
                 .play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
     }
 }
-

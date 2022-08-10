@@ -10,6 +10,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Provides tabs for blocks that should only have one tab at a time (e.g. Crafting Tables).
@@ -22,7 +23,7 @@ public class UniqueTabProvider extends BlockTabProvider {
         super.addAvailableTabs(player, tabs);
         Set<Identifier> tabsToRemove = new HashSet<>();
         List<SimpleBlockTab> craftingTableTabs = tabs.stream().filter(tab -> tab instanceof SimpleBlockTab).map(tab -> (SimpleBlockTab) tab)
-                .filter(tab -> uniqueBlocks.contains(tab.blockId)).toList();
+                .filter(tab -> uniqueBlocks.contains(tab.blockId)).collect(Collectors.toList());
 
         for (SimpleBlockTab tab : craftingTableTabs) {
             if (!tabsToRemove.add(tab.blockId)) {

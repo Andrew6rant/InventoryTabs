@@ -14,12 +14,12 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
 @Mixin(KeyBinding.class)
 public abstract class KeyBindingMixin_SoftConflict {
-	@Shadow @Final private static Map<String, KeyBinding> KEYS_BY_ID;
+	@Shadow @Final private static Map<String, KeyBinding> keysById;
 	
 	@Shadow private InputUtil.Key boundKey;
 	
@@ -51,7 +51,7 @@ public abstract class KeyBindingMixin_SoftConflict {
 	private static KeyBinding findAlternative(InputUtil.Key key, KeyBinding binding, KeyBinding alternativeTo) {
 		Screen screen = MinecraftClient.getInstance().currentScreen;
 		if(binding == alternativeTo && !InventoryTabsClient.screenSupported(screen)) {
-			for(KeyBinding value : KEYS_BY_ID.values()) {
+			for(KeyBinding value : keysById.values()) {
 				KeyBindingMixin_SoftConflict self = (KeyBindingMixin_SoftConflict) (Object) value;
 				InputUtil.Key bound = self.boundKey;
 				if(Objects.equals(bound, key) && value != alternativeTo) {

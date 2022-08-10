@@ -6,7 +6,6 @@
   "mixins": [
     "CartographyTableScreenTabAdder",
     "LoomScreenTabAdder",
-    "ShulkerBoxBlockInvoker",
     "StonecutterScreenTabAdder",
     "TabManagerContainerImplementer",
     "VanillaScreenTabAdder",

@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import net.minecraft.client.gui.screen.options.ControlsListWidget;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.gui.screen.option.ControlsListWidget;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;

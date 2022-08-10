@@ -9,9 +9,9 @@ import com.kqp.inventorytabs.util.BlockUtil;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.command.arguments.EntityAnchorArgumentType.EntityAnchor;
+import net.minecraft.command.argument.EntityAnchorArgumentType.EntityAnchor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
@@ -87,8 +87,8 @@ public class SimpleBlockTab extends Tab {
         BlockEntity blockEntity = world.getBlockEntity(blockPos);
 
         if (blockEntity != null) {
-            CompoundTag tag = new CompoundTag();
-            blockEntity.toTag(tag);
+            NbtCompound tag = new NbtCompound();
+            blockEntity.writeNbt(tag);
 
             if (tag.contains("CustomName", 8)) {
                 return Text.Serializer.fromJson(tag.getString("CustomName"));
