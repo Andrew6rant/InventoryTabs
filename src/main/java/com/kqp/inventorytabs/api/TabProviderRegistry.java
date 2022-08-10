@@ -8,17 +8,12 @@ import com.kqp.inventorytabs.tabs.provider.*;
 
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.tag.Tag;
-import net.minecraft.tag.TagContainer;
 import net.minecraft.tag.TagContainers;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import static net.minecraft.util.registry.Registry.BLOCK_KEY;
 
 /**
  * Registry for tab providers.
@@ -115,10 +110,10 @@ public class TabProviderRegistry {
         for (String overrideEntry : tagSet) {
             String[] splitEntry = overrideEntry.split(":"); // split into two parts: tag id, item name
             if (isValid(overrideEntry, splitEntry, invalidSet)) {
-                TagContainer<Block> blocks = TagContainers.instance().blocks();
-                Collection<Identifier> blockStream = blocks.getTagsFor(block);
+                var blocks = TagContainers.method_29223().method_30215();
+                Collection<Identifier> blockStream = blocks.method_30206(block);
                 for (Identifier tagKey : blockStream) {
-                    if (block.isIn(blocks.get(new Identifier(splitEntry[0], splitEntry[1])))) {
+                    if (block.isIn(blocks.method_30213(new Identifier(splitEntry[0], splitEntry[1])))) {
                         removeSimpleBlock(block);
                         if (InventoryTabs.getConfig().debugEnabled) {
                             LOGGER.info("Excluding: " + block);

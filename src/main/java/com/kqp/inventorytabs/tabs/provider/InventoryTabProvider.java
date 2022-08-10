@@ -1,17 +1,12 @@
 package com.kqp.inventorytabs.tabs.provider;
 
-import com.kqp.inventorytabs.tabs.tab.ChestTab;
 import com.kqp.inventorytabs.tabs.tab.InventoryTab;
-import com.kqp.inventorytabs.tabs.tab.PlayerInventoryTab;
 import com.kqp.inventorytabs.tabs.tab.Tab;
-import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 
 import java.util.HashSet;
 import java.util.List;

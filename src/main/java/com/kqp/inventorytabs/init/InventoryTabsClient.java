@@ -1,6 +1,5 @@
 package com.kqp.inventorytabs.init;
 
-import com.kqp.inventorytabs.api.TabProviderRegistry;
 import com.kqp.inventorytabs.interf.TabManagerContainer;
 
 import org.lwjgl.glfw.GLFW;

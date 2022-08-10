@@ -16,18 +16,13 @@ import com.kqp.inventorytabs.tabs.tab.PlayerInventoryTab;
 import com.kqp.inventorytabs.tabs.tab.Tab;
 import com.kqp.inventorytabs.util.MouseUtil;
 
-import net.fabricmc.loader.api.FabricLoader;
-import org.lwjgl.glfw.GLFW;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundEvents;
 
 import static com.kqp.inventorytabs.init.InventoryTabs.*;

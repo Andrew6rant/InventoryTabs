@@ -1,6 +1,8 @@
 package com.kqp.inventorytabs.tabs.render;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.kqp.inventorytabs.init.InventoryTabs;
 import com.kqp.inventorytabs.mixin.accessor.HandledScreenAccessor;
@@ -10,11 +12,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import static com.kqp.inventorytabs.init.InventoryTabs.*;
@@ -164,7 +166,9 @@ public class TabRenderer {
                 Rectangle itemRec = new Rectangle(tabRenderInfo.itemX, tabRenderInfo.itemY, 16, 16);
 
                 if (itemRec.contains(mouseX, mouseY)) {
-                    tabManager.getCurrentScreen().renderTooltip(matrices, tabRenderInfo.tabReference.getHoverText(),
+                    List<Text> tooltip = new ArrayList<Text>(1);
+                    tooltip.add(tabRenderInfo.tabReference.getHoverText());
+                    tabManager.getCurrentScreen().method_30901(matrices, tooltip,
                             (int) mouseX, (int) mouseY);
                 }
             }

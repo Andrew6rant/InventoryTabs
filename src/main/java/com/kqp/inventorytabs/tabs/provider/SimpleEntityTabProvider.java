@@ -5,7 +5,6 @@ import com.kqp.inventorytabs.tabs.tab.Tab;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,10 +19,10 @@ public class SimpleEntityTabProvider extends EntityTabProvider {
     @Override
     public void addAvailableTabs(ClientPlayerEntity player, List<Tab> tabs) {
         super.addAvailableTabs(player, tabs);
-        Set<SimpleEntityTab> tabsToRemove = new HashSet<>();
-        List<SimpleEntityTab> entityTabs = tabs.stream().filter(tab -> tab instanceof SimpleEntityTab).map(tab -> (SimpleEntityTab) tab)
-                .filter(tab -> entities.contains(tab.entityId)).toList();
-        World world = player.world;
+        // Set<SimpleEntityTab> tabsToRemove = new HashSet<>();
+        // List<SimpleEntityTab> entityTabs = tabs.stream().filter(tab -> tab instanceof SimpleEntityTab).map(tab -> (SimpleEntityTab) tab)
+        //         .filter(tab -> entities.contains(tab.entityId)).toList();
+        // World world = player.world;
     }
 
     @Override
