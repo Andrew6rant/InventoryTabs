@@ -77,8 +77,11 @@ public class ChestTab extends SimpleBlockTab {
         List<ItemFrameEntity> list3 = world.getNonSpectatingEntities(ItemFrameEntity.class, new Box(x, y-0.8, z, x1+0.8, y1+1.8, z1+0.8));
         List<ItemFrameEntity> list = new ArrayList<>();
         Stream.of(list1, list2, list3).forEach(list::addAll);
-        if (!list.isEmpty()) {
-            itemStack = list.get(0).getHeldItemStack();
+        for(ItemFrameEntity itemFrame : list){
+            ItemStack item = itemFrame.getHeldItemStack();
+            if(item != null && !item.isEmpty()){
+                return item;
+            }
         }
         return itemStack;
     }
