@@ -80,7 +80,8 @@ public class ChestTab extends SimpleBlockTab {
         for(ItemFrameEntity itemFrame : list){
             ItemStack item = itemFrame.getHeldItemStack();
             if(item != null && !item.isEmpty()){
-                return item;
+                itemStack = item;
+                break;
             }
         }
         return itemStack;
