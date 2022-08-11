@@ -2,6 +2,7 @@ package com.kqp.inventorytabs.tabs.tab;
 
 import com.kqp.inventorytabs.mixin.accessor.ScreenAccessor;
 import com.kqp.inventorytabs.tabs.render.TabRenderInfo;
+import com.kqp.inventorytabs.util.EntityUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -13,6 +14,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.text.Text;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
@@ -33,7 +35,13 @@ public class SimpleEntityTab extends Tab {
     @Override
     public void open() {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        MinecraftClient.getInstance().interactionManager.interactEntity(player, entity, player.getActiveHand());
+        if(player != null) {
+            Hand hand = player.getActiveHand();
+            if(hand == null){
+                hand = Hand.MAIN_HAND;
+            }
+            MinecraftClient.getInstance().interactionManager.interactEntity(player, entity, hand);
+        }
     }
 
     @Override
@@ -78,7 +86,7 @@ public class SimpleEntityTab extends Tab {
     }
 
     public ItemStack getItemStack() {
-        ItemStack pickBlockResult = new ItemStack(SpawnEggItem.forEntity(entity.getType()));
-        return pickBlockResult != null ? pickBlockResult : new ItemStack(Registry.ITEM.get(new Identifier("minecraft", "barrier")));
+        ItemStack pickBlockResult = EntityUtil.getEntityPickResult(entity);
+        return pickBlockResult != null && !pickBlockResult.isEmpty() ? pickBlockResult : new ItemStack(Registry.ITEM.get(new Identifier("minecraft", "barrier")));
     }
 }
