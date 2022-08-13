@@ -1,6 +1,8 @@
 package com.kqp.inventorytabs.tabs.render;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.kqp.inventorytabs.init.InventoryTabs;
 import com.kqp.inventorytabs.mixin.accessor.HandledScreenAccessor;
@@ -14,7 +16,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+
+import static com.kqp.inventorytabs.init.InventoryTabs.*;
 
 /**
  * Handles the rendering of tabs.
@@ -86,7 +91,9 @@ public class TabRenderer {
 
         // Drawing back button
         int x = oX - BUTTON_WIDTH - 4;
+        x += ((TabRenderingHints) currentScreen).getTopRowXOffset();
         int y = oY - 16;
+        y += ((TabRenderingHints) currentScreen).getTopRowYOffset();
         boolean hovered = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT).contains(mouseX, mouseY);
         int u = 0;
         u += tabManager.canGoBackAPage() && hovered ? BUTTON_WIDTH * 2 : 0;
@@ -95,7 +102,9 @@ public class TabRenderer {
 
         // Drawing forward button
         x = oX + width + 4;
+        x += ((TabRenderingHints) currentScreen).getTopRowXOffset();
         y = oY - 16;
+        y += ((TabRenderingHints) currentScreen).getTopRowYOffset();
         hovered = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT).contains(mouseX, mouseY);
         u = 15;
         u += tabManager.canGoForwardAPage() && hovered ? BUTTON_WIDTH * 2 : 0;
@@ -105,14 +114,15 @@ public class TabRenderer {
 
     private void drawPageText(MatrixStack matrices) {
         if (tabManager.getMaxPages() > 1 && pageTextRefreshTime > 0) {
-            RenderSystem.pushMatrix();
+            // RenderSystem.pushMatrix();
+            // TODO: Figure out rendering
 
             int color = 0xFFFFFFFF;
 
             if (pageTextRefreshTime <= 20) {
                 RenderSystem.disableTexture();
                 RenderSystem.enableBlend();
-                RenderSystem.disableAlphaTest();
+                // RenderSystem.disableAlphaTest();
                 RenderSystem.defaultBlendFunc();
                 RenderSystem.colorMask(true, true, true, true);
                 float transparency = pageTextRefreshTime / 20F;
@@ -134,7 +144,7 @@ public class TabRenderer {
 
             MinecraftClient.getInstance().textRenderer.draw(matrices, text, x, y, color);
 
-            RenderSystem.popMatrix();
+            // RenderSystem.popMatrix();
         }
     }
 
@@ -167,7 +177,16 @@ public class TabRenderer {
         HandledScreen<?> currentScreen = tabManager.getCurrentScreen();
 
         int maxRowLength = tabManager.getMaxRowLength();
-        int numVisibleTabs = maxRowLength * 2;
+        int numVisibleTabs;
+        if(isBigInvLoaded) {
+            numVisibleTabs = (maxRowLength * 2) + 5;
+        } else if (isPlayerExLoaded) {
+            numVisibleTabs = (maxRowLength * 2) - 3;
+        } else if (isLevelzLoaded) {
+            numVisibleTabs = (maxRowLength * 2) - 2;
+        }else {
+            numVisibleTabs = maxRowLength * 2;
+        }
         int startingIndex = tabManager.currentPage * numVisibleTabs;
 
         TabRenderInfo[] tabRenderInfo = new TabRenderInfo[numVisibleTabs];
@@ -180,6 +199,11 @@ public class TabRenderer {
                 // Setup basic info
                 Tab tab = tabManager.tabs.get(startingIndex + i);
                 boolean topRow = i < maxRowLength;
+                if(isPlayerExLoaded) {
+                    topRow = i < maxRowLength - 3;
+                } else if(isLevelzLoaded) {
+                    topRow = i < maxRowLength - 2;
+                }
                 boolean selected = tab == tabManager.currentTab;
 
                 // Create tab info object
@@ -195,13 +219,13 @@ public class TabRenderer {
 
                 // Calc y value
                 if (topRow) {
-                    tabInfo.y = y - 26;
-
-                    if (selected) {
-                        tabInfo.y = y - 28;
-                    }
+                    tabInfo.y = y - 28;
                 } else {
-                    tabInfo.y = y + ((HandledScreenAccessor) currentScreen).getBackgroundHeight() - 4;
+                    if(isBigInvLoaded) {
+                        tabInfo.y = y + ((HandledScreenAccessor) currentScreen).getBackgroundHeight() + 32;
+                    } else {
+                        tabInfo.y = y + ((HandledScreenAccessor) currentScreen).getBackgroundHeight() - 4;
+                    }
                 }
 
                 // Calc texture dimensions
@@ -242,14 +266,33 @@ public class TabRenderer {
                 // Apply rendering hints
                 if (currentScreen instanceof TabRenderingHints) {
                     if (topRow) {
-                        tabInfo.x += ((TabRenderingHints) currentScreen).getTopRowXOffset();
+                        if(isPlayerExLoaded) {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getTopRowXOffset() + 87;
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getTopRowXOffset() + 87;
+                        } else if(isLevelzLoaded) {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getTopRowXOffset() + 54;
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getTopRowXOffset() + 54;
+                        }else {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getTopRowXOffset();
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getTopRowXOffset();
+                        }
                         tabInfo.y += ((TabRenderingHints) currentScreen).getTopRowYOffset();
-                        tabInfo.itemX += ((TabRenderingHints) currentScreen).getTopRowXOffset();
                         tabInfo.itemY += ((TabRenderingHints) currentScreen).getTopRowYOffset();
                     } else {
-                        tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset();
+                        if(isBigInvLoaded) {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset() - 145;
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset() - 145;
+                        } else if(isPlayerExLoaded) {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset() + 86;
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset() + 86;
+                        } else if(isLevelzLoaded) {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset() + 60;
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset() + 60;
+                        }else {
+                            tabInfo.x += ((TabRenderingHints) currentScreen).getBottomRowXOffset();
+                            tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset();
+                        }
                         tabInfo.y += ((TabRenderingHints) currentScreen).getBottomRowYOffset();
-                        tabInfo.itemX += ((TabRenderingHints) currentScreen).getBottomRowXOffset();
                         tabInfo.itemY += ((TabRenderingHints) currentScreen).getBottomRowYOffset();
                     }
                 }

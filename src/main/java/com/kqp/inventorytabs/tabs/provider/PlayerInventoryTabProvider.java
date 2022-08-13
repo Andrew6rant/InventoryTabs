@@ -10,12 +10,11 @@ import net.minecraft.client.network.ClientPlayerEntity;
 public class PlayerInventoryTabProvider implements TabProvider {
     @Override
     public void addAvailableTabs(ClientPlayerEntity player, List<Tab> tabs) {
-        for (int i = 0; i < tabs.size(); i++) {
-            if (tabs.get(i) instanceof PlayerInventoryTab) {
+        for (Tab tab : tabs) {
+            if (tab instanceof PlayerInventoryTab) {
                 return;
             }
         }
-
         tabs.add(new PlayerInventoryTab());
     }
 }

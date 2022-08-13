@@ -1,9 +1,48 @@
 # InventoryTabs
-Adds tabs to access nearby blocks.
+Adds tabs to access nearby blocks without leaving your inventory. Completely client-side. Requires Cloth Config API.
+
+<table><tr><td width="34.5%">
+
+![Inventory Tabs showcase](https://raw.githubusercontent.com/Andrew6rant/inventorytabs/1.18.x/.github/resources/InventoryTabs.png)
+
+</td><td width="65.5%">
+
+![Showcase GIF](https://raw.githubusercontent.com/Andrew6rant/inventorytabs/1.18.x/.github/resources/Tabs_showcase.gif)
+
+</td></tr></table>
+
+Also has [BigInv](https://github.com/SollyW/BigInv) and [PlayerEx](https://www.curseforge.com/minecraft/mc-mods/playerex) support!
+
+<table><tr><td width="36.5%">
+
+![BigInv support](https://raw.githubusercontent.com/Andrew6rant/inventorytabs/1.18.x/.github/resources/BigInv_compat.png)
+
+</td><td width="33.5%">
+
+![PlayerEx support](https://user-images.githubusercontent.com/57331134/175751311-6edb68b4-82f4-4104-ba45-38139303536c.png)
+
+</td></tr></table>
+
+New in 0.8.1: Chest icons and hover text can be changed by nearby item frames!
+
+![InventoryTabs-nearby-item-frames](https://user-images.githubusercontent.com/57331134/180107483-11429056-8e99-4529-ad7d-7091032fb9aa.gif)
+
+New in 0.9.0: Entity support!
+
+<table><tr><td width="38%">
+
+![Chest Minecart showcase](https://user-images.githubusercontent.com/57331134/180368210-2510a9a3-0efb-49c9-9a1b-66b137739bf9.gif)
+
+</td><td width="32%">
+
+![Villager inventory showcase](https://user-images.githubusercontent.com/57331134/180335139-9db9e488-9e1d-467f-9877-13db22173453.png)
+
+</td></tr></table>
+
 
 ## Devs
 ### Importing
-To add **Inventory Tabs** to your project, you need to add ``https://jitpack.io`` as a repo and ``com.github.cakewhip:inventorytabs:mcA.B.C-vX.Y.Z`` as a dependency. For example:
+To add **Inventory Tabs** to your project, you need to add ``https://jitpack.io`` as a repo and ``com.github.Andrew6rant:InventoryTabs:inventorytabs-(mod version)-(Minecraft version)`` as a dependency. For example:
 ```
 repositories {
 	maven {
@@ -12,9 +51,10 @@ repositories {
 }
 
 dependencies {
-	modImplementation "com.github.cakewhip:inventorytabs:mcA.B.C-vX.Y.Z"
+	modImplementation "com.github.Andrew6rant:InventoryTabs:inventorytabs-0.6.1-1.19.x"
 }
 ```
+
 See the releases page for available versions.
 
 ### Adding Custom Tabs
@@ -36,3 +76,6 @@ Your handled screen needs to update the ``TabManager``, which you can grab a ref
 Finally, there are some methods to call for rendering and managing the tabs. In the ``render`` method before anything is drawn, call ``TabRenderer#renderBackground``. In the ``drawBackground``, call ``TabRenderer#renderForeground`` and ``TabRenderer#renderHoverTooltips``. In the ``mouseClicked`` method, call ``TabManager#mouseClicked``.
 
 If your screen's GUI dynamically changes (in the case of a recipe book opening), you can implement the ``TabRenderingHints`` interface and offset the top and bottom rows however you like.
+
+## Credits
+This 1.18 and 1.19 port is based on LiamMCW's fork of the original mod by cakewhip. Full credits can be found at https://github.com/Andrew6rant/inventorytabs/graphs/contributors.

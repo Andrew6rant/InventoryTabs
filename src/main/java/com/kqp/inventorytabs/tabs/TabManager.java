@@ -11,19 +11,21 @@ import com.kqp.inventorytabs.interf.TabManagerContainer;
 import com.kqp.inventorytabs.mixin.accessor.HandledScreenAccessor;
 import com.kqp.inventorytabs.tabs.render.TabRenderInfo;
 import com.kqp.inventorytabs.tabs.render.TabRenderer;
+import com.kqp.inventorytabs.tabs.render.TabRenderingHints;
+import com.kqp.inventorytabs.tabs.tab.PlayerInventoryTab;
 import com.kqp.inventorytabs.tabs.tab.Tab;
 import com.kqp.inventorytabs.util.MouseUtil;
-
-import org.lwjgl.glfw.GLFW;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.sound.SoundEvents;
+
+import static com.kqp.inventorytabs.init.InventoryTabs.*;
 
 /**
  * Manages everything related to tabs.
@@ -53,6 +55,12 @@ public class TabManager {
     public void setCurrentTab(Tab tab) {
         this.currentTab = tab;
     }
+    public void removeTabs() {
+        for (int i = 0; i < tabs.size(); i++) {
+            tabs.remove(i);
+            i--;
+        }
+    }
 
     private void refreshAvailableTabs() {
         // Remove old ones
@@ -67,6 +75,17 @@ public class TabManager {
         TabProviderRegistry.getTabProviders().forEach(tabProvider -> {
             tabProvider.addAvailableTabs(MinecraftClient.getInstance().player, tabs);
         });
+
+        if (currentTab != null) {
+            for (int i = 0; i < tabs.size(); i++) {
+                Tab tab = tabs.get(i);
+                if (currentTab != tab && currentTab.equals(tab)) {
+                    // We've come across a tab we already have open
+                    tabs.set(i, currentTab);
+                    break;
+                }
+            }
+        }
 
         // Sort
         tabs.sort(
@@ -85,7 +104,7 @@ public class TabManager {
             }
 
             // Check back button
-            if (new Rectangle(x - TabRenderer.BUTTON_WIDTH - 4, y - 16, TabRenderer.BUTTON_WIDTH,
+            if (new Rectangle(x - TabRenderer.BUTTON_WIDTH - 4 + ((TabRenderingHints) currentScreen).getTopRowXOffset(), y - 16, TabRenderer.BUTTON_WIDTH,
                     TabRenderer.BUTTON_HEIGHT).contains(mouseX, mouseY)) {
                 if (canGoBackAPage()) {
                     setCurrentPage(currentPage - 1);
@@ -96,7 +115,7 @@ public class TabManager {
             }
 
             // Check forward button
-            if (new Rectangle(x + guiWidth + 4, y - 16, TabRenderer.BUTTON_WIDTH, TabRenderer.BUTTON_HEIGHT)
+            if (new Rectangle(x + guiWidth + 4 + ((TabRenderingHints) currentScreen).getTopRowXOffset(), y - 16, TabRenderer.BUTTON_WIDTH, TabRenderer.BUTTON_HEIGHT)
                     .contains(mouseX, mouseY)) {
                 if (canGoForwardAPage()) {
                     setCurrentPage(currentPage + 1);
@@ -132,16 +151,18 @@ public class TabManager {
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (InventoryTabsClient.NEXT_TAB_KEY_BIND.matchesKey(keyCode, scanCode)) {
             int currentTabIndex = tabs.indexOf(currentTab);
-
-            if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
-                    GLFW.GLFW_KEY_LEFT_SHIFT)) {
+            if (Screen.hasShiftDown()) {
                 if (currentTabIndex > 0) {
                     onTabClick(tabs.get(currentTabIndex - 1));
+                } else {
+                    onTabClick(tabs.get(tabs.size() - 1));
                 }
                 return true;
             } else {
                 if (currentTabIndex < tabs.size() - 1) {
                     onTabClick(tabs.get(currentTabIndex + 1));
+                } else {
+                    onTabClick(tabs.get(0));
                 }
 
                 return true;
@@ -164,7 +185,9 @@ public class TabManager {
         MouseUtil.push();
 
         // Set tab open flag
-        tabOpenedRecently = true;
+        if (!(tab instanceof PlayerInventoryTab)) {
+            tabOpenedRecently = true;
+        }
 
         // Close any handled screens
         // This fixes the inventory desync issue
@@ -190,8 +213,13 @@ public class TabManager {
 
     public int pageOf(Tab tab) {
         int index = tabs.indexOf(tab);
-
-        return index / (getMaxRowLength() * 2);
+        if(isBigInvLoaded) {
+            return index / (getMaxRowLength() * 2 + 5);
+        } else if(isPlayerExLoaded || isLevelzLoaded) {
+            return index / (getMaxRowLength() * 2 - 2);
+        } else {
+            return index / (getMaxRowLength() * 2);
+        }
     }
 
     public int getMaxRowLength() {
@@ -210,7 +238,13 @@ public class TabManager {
     }
 
     public void setCurrentPage(int page) {
-        if (page > 0 && tabs.size() < getMaxRowLength() * 2) {
+        int maxRowLength = getMaxRowLength() * 2;
+        if (isPlayerExLoaded) {
+            maxRowLength =- 3;
+        } else if (isLevelzLoaded) {
+            maxRowLength =- 2;
+        }
+        if (page > 0 && tabs.size() < maxRowLength) {
             System.err.println("Not enough tabs to paginate, ignoring");
 
             return;
@@ -234,7 +268,15 @@ public class TabManager {
     }
 
     public int getMaxPages() {
-        return tabs.size() / (getMaxRowLength() * 2 + 1);
+        if(isBigInvLoaded) {
+            return tabs.size() / (getMaxRowLength() * 2 + 6);
+        } else if(isPlayerExLoaded) {
+            return tabs.size() / (getMaxRowLength() * 2 - 2);
+        } else if(isLevelzLoaded) {
+            return tabs.size() / (getMaxRowLength() * 2 - 1);
+        } else {
+            return tabs.size() / (getMaxRowLength() * 2 + 1);
+        }
     }
 
     public boolean canGoBackAPage() {

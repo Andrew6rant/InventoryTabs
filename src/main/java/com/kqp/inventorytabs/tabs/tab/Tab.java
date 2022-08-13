@@ -2,7 +2,6 @@ package com.kqp.inventorytabs.tabs.tab;
 
 import com.kqp.inventorytabs.mixin.accessor.ScreenAccessor;
 import com.kqp.inventorytabs.tabs.render.TabRenderInfo;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -72,7 +71,7 @@ public abstract class Tab {
         ItemRenderer itemRenderer = ((ScreenAccessor) currentScreen).getItemRenderer();
         TextRenderer textRenderer = ((ScreenAccessor) currentScreen).getTextRenderer();
         itemRenderer.zOffset = 100.0F;
-        RenderSystem.enableRescaleNormal();
+        // RenderSystem.enableRescaleNormal();
         itemRenderer.renderInGuiWithOverrides(renderItemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
         itemRenderer.renderGuiItemOverlay(textRenderer, renderItemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
         itemRenderer.zOffset = 0.0F;

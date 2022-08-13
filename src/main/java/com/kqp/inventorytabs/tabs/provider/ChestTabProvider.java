@@ -38,9 +38,7 @@ public class ChestTabProvider extends BlockTabProvider {
         // Add any chests that are blocked
         chestTabs.stream().filter(tab -> ChestBlock.isChestBlocked(world, tab.blockPos)).forEach(tabsToRemove::add);
 
-        for (int i = 0; i < chestTabs.size(); i++) {
-            ChestTab tab = chestTabs.get(i);
-
+        for (ChestTab tab : chestTabs) {
             if (!tabsToRemove.contains(tab)) {
                 if (ChestUtil.isDouble(world, tab.blockPos)) {
                     tabsToRemove.add(new ChestTab(tab.blockId, ChestUtil.getOtherChestBlockPos(world, tab.blockPos)));

@@ -9,7 +9,7 @@ import com.kqp.inventorytabs.util.BlockUtil;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.command.argument.EntityAnchorArgumentType;
+import net.minecraft.command.argument.EntityAnchorArgumentType.EntityAnchor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
@@ -44,13 +44,13 @@ public class SimpleBlockTab extends Tab {
         if (InventoryTabs.getConfig().doSightChecksFlag) {
             hitResult = BlockUtil.getLineOfSight(blockPos, client.player, 5D);
         } else {
-            hitResult = new BlockHitResult(client.player.getPos(), Direction.EAST, blockPos, false);
+            hitResult = new BlockHitResult(Vec3d.ofCenter(blockPos), Direction.EAST, blockPos, false);
         }
 
         if (hitResult != null) {
             if (InventoryTabs.getConfig().rotatePlayer) {
-                MinecraftClient.getInstance().player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES,
-                        getBlockVec3d());
+                MinecraftClient.getInstance().player.lookAt(EntityAnchor.EYES,
+                        Vec3d.ofCenter(blockPos));
             }
 
             MinecraftClient.getInstance().interactionManager.interactBlock(client.player, client.player.clientWorld,
@@ -69,13 +69,15 @@ public class SimpleBlockTab extends Tab {
         if (InventoryTabs.getConfig().doSightChecksFlag) {
             if (BlockUtil.getLineOfSight(blockPos, player, 5D) == null) {
                 return true;
+            } else {
+                return !BlockUtil.inRange(blockPos, player, 5D);
             }
         }
-
         Vec3d playerHead = player.getPos().add(0D, player.getEyeHeight(player.getPose()), 0D);
 
-        return getBlockVec3d().subtract(playerHead).lengthSquared() > BlockTabProvider.SEARCH_DISTANCE
+        return Vec3d.ofCenter(blockPos).subtract(playerHead).lengthSquared() > BlockTabProvider.SEARCH_DISTANCE
                 * BlockTabProvider.SEARCH_DISTANCE;
+
     }
 
     @Override
@@ -94,10 +96,6 @@ public class SimpleBlockTab extends Tab {
         }
 
         return new TranslatableText(world.getBlockState(blockPos).getBlock().getTranslationKey());
-    }
-
-    private Vec3d getBlockVec3d() {
-        return new Vec3d(blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D);
     }
 
     @Override

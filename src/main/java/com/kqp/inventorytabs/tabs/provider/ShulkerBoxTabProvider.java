@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.kqp.inventorytabs.util.ShulkerBoxBlockInvoker;
 import com.kqp.inventorytabs.tabs.tab.SimpleBlockTab;
 import com.kqp.inventorytabs.tabs.tab.Tab;
 
@@ -13,9 +14,7 @@ import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.mob.ShulkerLidCollisions;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
@@ -39,12 +38,9 @@ public class ShulkerBoxTabProvider extends BlockTabProvider {
 
             if (blockEntity instanceof ShulkerBoxBlockEntity) {
                 BlockState blockState = player.world.getBlockState(tab.blockPos);
-                Direction direction = blockState.get(ShulkerBoxBlock.FACING);
 
-                if (((ShulkerBoxBlockEntity) blockEntity)
-                        .getAnimationStage() == ShulkerBoxBlockEntity.AnimationStage.CLOSED) {
-                    return !player.world.isSpaceEmpty(ShulkerLidCollisions.getLidCollisionBox(tab.blockPos, direction));
-                }
+                return !ShulkerBoxBlockInvoker.invokeCanOpen(blockState, player.world, tab.blockPos,
+                        (ShulkerBoxBlockEntity) blockEntity);
             }
 
             return false;
