@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.kqp.inventorytabs.mixin.ShulkerBoxBlockInvoker;
+import com.kqp.inventorytabs.util.ShulkerBoxBlockInvoker;
 import com.kqp.inventorytabs.tabs.tab.SimpleBlockTab;
 import com.kqp.inventorytabs.tabs.tab.Tab;
 

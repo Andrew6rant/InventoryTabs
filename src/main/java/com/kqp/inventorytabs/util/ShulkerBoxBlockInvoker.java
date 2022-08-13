@@ -1,4 +1,4 @@
-package com.kqp.inventorytabs.mixin;
+package com.kqp.inventorytabs.util;
 
 import net.minecraft.entity.mob.ShulkerLidCollisions;
 import net.minecraft.util.math.Direction;

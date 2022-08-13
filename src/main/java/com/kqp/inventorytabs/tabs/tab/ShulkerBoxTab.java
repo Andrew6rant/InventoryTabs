@@ -1,6 +1,6 @@
 package com.kqp.inventorytabs.tabs.tab;
 
-import com.kqp.inventorytabs.mixin.ShulkerBoxBlockInvoker;
+import com.kqp.inventorytabs.util.ShulkerBoxBlockInvoker;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
