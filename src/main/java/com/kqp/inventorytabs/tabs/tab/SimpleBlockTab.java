@@ -1,5 +1,6 @@
 package com.kqp.inventorytabs.tabs.tab;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.kqp.inventorytabs.init.InventoryTabs;
@@ -96,6 +97,13 @@ public class SimpleBlockTab extends Tab {
 
         return Text.translatable(world.getBlockState(blockPos).getBlock().getTranslationKey());
 
+    }
+
+    @Override
+    public List<Text> getFullHoverText() {
+        List<Text> hoverTexts = super.getFullHoverText();
+        hoverTexts.addAll(BlockUtil.getSignText(blockPos, true));
+        return  hoverTexts;
     }
 
     @Override
