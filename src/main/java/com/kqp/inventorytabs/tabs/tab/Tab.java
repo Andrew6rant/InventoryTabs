@@ -6,6 +6,7 @@ import com.kqp.inventorytabs.tabs.render.TabRenderInfo;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -62,19 +63,18 @@ public abstract class Tab {
     /**
      * Renders the tab's icon
      *
-     * @param matrices      MatrixStack
+     * @param context       DrawContext
      * @param tabRenderInfo TabRenderInfo
      * @param currentScreen HandledScreen
      */
     @Environment(EnvType.CLIENT)
-    public void renderTabIcon(MatrixStack matrices, TabRenderInfo tabRenderInfo, HandledScreen<?> currentScreen) {
-        ItemRenderer itemRenderer = ((ScreenAccessor) currentScreen).getItemRenderer();
+    public void renderTabIcon(DrawContext context, TabRenderInfo tabRenderInfo, HandledScreen<?> currentScreen) {
         TextRenderer textRenderer = ((ScreenAccessor) currentScreen).getTextRenderer();
-        matrices.push();
-        matrices.translate(0, 0, 100.0F);
+        context.getMatrices().push();
+        context.getMatrices().translate(0, 0, 100.0F);
         // RenderSystem.enableRescaleNormal();
-        itemRenderer.renderInGuiWithOverrides(matrices, renderItemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
-        itemRenderer.renderGuiItemOverlay(matrices, textRenderer, renderItemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
-        matrices.pop();
+        context.drawItem(renderItemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
+        context.drawItemInSlot(textRenderer, renderItemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
+        context.getMatrices().pop();
     }
 }

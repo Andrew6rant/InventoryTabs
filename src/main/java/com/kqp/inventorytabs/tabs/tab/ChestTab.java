@@ -6,6 +6,7 @@ import com.kqp.inventorytabs.util.ChestUtil;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -39,7 +40,7 @@ public class ChestTab extends SimpleBlockTab {
     public boolean shouldBeRemoved() {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
 
-        if (ChestBlock.isChestBlocked(player.world, blockPos)) {
+        if (ChestBlock.isChestBlocked(player.getWorld(), blockPos)) {
             return true;
         }
 
@@ -55,19 +56,18 @@ public class ChestTab extends SimpleBlockTab {
     }
 
     @Override
-    public void renderTabIcon(MatrixStack matrices, TabRenderInfo tabRenderInfo, HandledScreen<?> currentScreen) {
+    public void renderTabIcon(DrawContext context, TabRenderInfo tabRenderInfo, HandledScreen<?> currentScreen) {
         ItemStack itemStack = getItemFrame();
-        ItemRenderer itemRenderer = ((ScreenAccessor) currentScreen).getItemRenderer();
         TextRenderer textRenderer = ((ScreenAccessor) currentScreen).getTextRenderer();
-        matrices.push();
-        matrices.translate(0, 0, 100.0F);
-        itemRenderer.renderInGuiWithOverrides(matrices, itemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
-        itemRenderer.renderGuiItemOverlay(matrices, textRenderer, itemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
-        matrices.pop();
+        context.getMatrices().push();
+        context.getMatrices().translate(0, 0, 100.0F);
+        context.drawItem(itemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
+        context.drawItemInSlot(textRenderer, itemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
+        context.getMatrices().pop();
     }
 
     public ItemStack getItemFrame() {
-        World world = MinecraftClient.getInstance().player.world;
+        World world = MinecraftClient.getInstance().player.getWorld();
         itemStack = new ItemStack(world.getBlockState(blockPos).getBlock());
         BlockPos doubleChestPos = ChestUtil.isDouble(world, blockPos) ? getOtherChestBlockPos(world, blockPos) : blockPos;
         Box box = new Box(blockPos, doubleChestPos);

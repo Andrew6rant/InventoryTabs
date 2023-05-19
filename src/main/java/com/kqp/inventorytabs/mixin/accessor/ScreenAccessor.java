@@ -13,8 +13,5 @@ import net.minecraft.client.render.item.ItemRenderer;
 @Mixin(Screen.class)
 public interface ScreenAccessor {
     @Accessor
-    ItemRenderer getItemRenderer();
-
-    @Accessor
     TextRenderer getTextRenderer();
 }

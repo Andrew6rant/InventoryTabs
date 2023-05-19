@@ -34,12 +34,12 @@ public class ShulkerBoxTabProvider extends BlockTabProvider {
 
         // Add any chests that are blocked
         shulkerTabs.stream().filter(tab -> {
-            BlockEntity blockEntity = player.world.getBlockEntity(tab.blockPos);
+            BlockEntity blockEntity = player.getWorld().getBlockEntity(tab.blockPos);
 
             if (blockEntity instanceof ShulkerBoxBlockEntity) {
-                BlockState blockState = player.world.getBlockState(tab.blockPos);
+                BlockState blockState = player.getWorld().getBlockState(tab.blockPos);
 
-                return !ShulkerBoxBlockInvoker.invokeCanOpen(blockState, player.world, tab.blockPos,
+                return !ShulkerBoxBlockInvoker.invokeCanOpen(blockState, player.getWorld(), tab.blockPos,
                         (ShulkerBoxBlockEntity) blockEntity);
             }
 

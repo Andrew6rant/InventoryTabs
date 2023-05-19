@@ -23,7 +23,7 @@ public class SimpleEntityTabProvider extends EntityTabProvider {
         Set<SimpleEntityTab> tabsToRemove = new HashSet<>();
         List<SimpleEntityTab> entityTabs = tabs.stream().filter(tab -> tab instanceof SimpleEntityTab).map(tab -> (SimpleEntityTab) tab)
                 .filter(tab -> entities.contains(tab.entityId)).toList();
-        World world = player.world;
+        World world = player.getWorld();
     }
 
     @Override

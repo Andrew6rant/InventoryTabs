@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 
 import com.kqp.inventorytabs.init.InventoryTabs;
 import com.kqp.inventorytabs.mixin.accessor.HandledScreenAccessor;
+import com.kqp.inventorytabs.mixin.accessor.ScreenAccessor;
 import com.kqp.inventorytabs.tabs.TabManager;
 import com.kqp.inventorytabs.tabs.tab.Tab;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -12,6 +13,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
@@ -41,9 +43,7 @@ public class TabRenderer {
         this.tabManager = tabManager;
     }
 
-    public void renderBackground(MatrixStack matrices) {
-        matrices.push();
-
+    public void renderBackground(DrawContext context) {
         tabRenderInfos = getTabRenderInfos();
 
         for (int i = 0; i < tabRenderInfos.length; i++) {
@@ -51,14 +51,13 @@ public class TabRenderer {
 
             if (tabRenderInfo != null) {
                 if (tabRenderInfo.tabReference != tabManager.currentTab) {
-                    renderTab(matrices, tabRenderInfo);
+                    renderTab(context, tabRenderInfo);
                 }
             }
         }
-        matrices.pop();
     }
 
-    public void renderForeground(MatrixStack matrices, double mouseX, double mouseY) {
+    public void renderForeground(DrawContext context, double mouseX, double mouseY) {
         RenderSystem.setShaderTexture(0, TABS_TEXTURE);
 
         for (int i = 0; i < tabRenderInfos.length; i++) {
@@ -66,20 +65,18 @@ public class TabRenderer {
 
             if (tabRenderInfo != null) {
                 if (tabRenderInfo.tabReference == tabManager.currentTab) {
-                    renderTab(matrices, tabRenderInfo);
+                    renderTab(context, tabRenderInfo);
                 }
             }
         }
 
-        drawButtons(matrices, mouseX, mouseY);
+        drawButtons(context, mouseX, mouseY);
 
-        drawPageText(matrices);
+        drawPageText(context);
     }
 
-    private void drawButtons(MatrixStack matrices, double mouseX, double mouseY) {
+    private void drawButtons(DrawContext context, double mouseX, double mouseY) {
         HandledScreen<?> currentScreen = tabManager.getCurrentScreen();
-
-        RenderSystem.setShaderTexture(0, BUTTONS_TEXTURE);
 
         int width = ((HandledScreenAccessor) currentScreen).getBackgroundWidth();
         int height = ((HandledScreenAccessor) currentScreen).getBackgroundHeight();
@@ -95,7 +92,7 @@ public class TabRenderer {
         int u = 0;
         u += tabManager.canGoBackAPage() && hovered ? BUTTON_WIDTH * 2 : 0;
         int v = tabManager.canGoBackAPage() ? 0 : 13;
-        currentScreen.drawTexture(matrices, x, y, u, v, BUTTON_WIDTH, BUTTON_HEIGHT);
+        context.drawTexture(BUTTONS_TEXTURE, x, y, u, v, BUTTON_WIDTH, BUTTON_HEIGHT);
 
         // Drawing forward button
         x = oX + width + 4;
@@ -106,10 +103,10 @@ public class TabRenderer {
         u = 15;
         u += tabManager.canGoForwardAPage() && hovered ? BUTTON_WIDTH * 2 : 0;
         v = tabManager.canGoForwardAPage() ? 0 : 13;
-        currentScreen.drawTexture(matrices, x, y, u, v, BUTTON_WIDTH, BUTTON_HEIGHT);
+        context.drawTexture(BUTTONS_TEXTURE, x, y, u, v, BUTTON_WIDTH, BUTTON_HEIGHT);
     }
 
-    private void drawPageText(MatrixStack matrices) {
+    private void drawPageText(DrawContext context) {
         if (tabManager.getMaxPages() > 1 && pageTextRefreshTime > 0) {
             // RenderSystem.pushMatrix();
             // TODO: Figure out rendering
@@ -138,23 +135,25 @@ public class TabRenderer {
             int x = (oX - textRenderer.getWidth(text)) / 2;
             int y = oY - 34;
 
-            MinecraftClient.getInstance().textRenderer.draw(matrices, text, x, y, color);
+            context.drawText(MinecraftClient.getInstance().textRenderer, text, x, y, color, false);
 
             // RenderSystem.popMatrix();
         }
     }
 
-    private void renderTab(MatrixStack matrices, TabRenderInfo tabRenderInfo) {
+    private void renderTab(DrawContext context, TabRenderInfo tabRenderInfo) {
         HandledScreen<?> currentScreen = tabManager.getCurrentScreen();
 
-        RenderSystem.setShaderTexture(0, TABS_TEXTURE);
-        currentScreen.drawTexture(matrices, tabRenderInfo.x, tabRenderInfo.y, tabRenderInfo.texU, tabRenderInfo.texV,
+        context.drawTexture(TABS_TEXTURE, tabRenderInfo.x, tabRenderInfo.y, tabRenderInfo.texU, tabRenderInfo.texV,
                 tabRenderInfo.texW, tabRenderInfo.texH);
 
-        tabRenderInfo.tabReference.renderTabIcon(matrices, tabRenderInfo, currentScreen);
+        tabRenderInfo.tabReference.renderTabIcon(context, tabRenderInfo, currentScreen);
     }
 
-    public void renderHoverTooltips(MatrixStack matrices, double mouseX, double mouseY) {
+    public void renderHoverTooltips(DrawContext context, double mouseX, double mouseY) {
+        HandledScreen<?> currentScreen = tabManager.getCurrentScreen();
+        TextRenderer textRenderer = ((ScreenAccessor) currentScreen).getTextRenderer();
+
         for (int i = 0; i < tabRenderInfos.length; i++) {
             TabRenderInfo tabRenderInfo = tabRenderInfos[i];
 
@@ -162,8 +161,7 @@ public class TabRenderer {
                 Rectangle itemRec = new Rectangle(tabRenderInfo.itemX, tabRenderInfo.itemY, 16, 16);
 
                 if (itemRec.contains(mouseX, mouseY)) {
-                    tabManager.getCurrentScreen().renderTooltip(matrices, tabRenderInfo.tabReference.getHoverText(),
-                            (int) mouseX, (int) mouseY);
+                    context.drawTooltip(textRenderer, tabRenderInfo.tabReference.getHoverText(), (int) mouseX, (int) mouseY);
                 }
             }
         }

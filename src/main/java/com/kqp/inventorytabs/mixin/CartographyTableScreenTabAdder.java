@@ -11,18 +11,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.CartographyTableScreen;
 import net.minecraft.client.util.math.MatrixStack;
 
 @Environment(EnvType.CLIENT)
 @Mixin(CartographyTableScreen.class)
 public class CartographyTableScreenTabAdder {
-    @Inject(method = "drawBackground", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/client/gui/screen/ingame/CartographyTableScreen;renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V"))
-    protected void drawBackgroundTabs(MatrixStack matrices, float delta, int mouseX, int mouseY,
-            CallbackInfo callbackInfo) {
+    @Inject(method = "drawBackground", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/client/gui/screen/ingame/CartographyTableScreen;renderBackground(Lnet/minecraft/client/gui/DrawContext;)V"))
+    protected void drawBackgroundTabs(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
         TabManager tabManager = ((TabManagerContainer) client).getTabManager();
 
-        tabManager.tabRenderer.renderBackground(matrices);
+        tabManager.tabRenderer.renderBackground(context);
     }
 }

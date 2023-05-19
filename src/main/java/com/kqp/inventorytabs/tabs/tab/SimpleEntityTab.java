@@ -4,6 +4,7 @@ import com.kqp.inventorytabs.mixin.accessor.ScreenAccessor;
 import com.kqp.inventorytabs.tabs.render.TabRenderInfo;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -49,15 +50,14 @@ public class SimpleEntityTab extends Tab {
     }
 
     @Override
-    public void renderTabIcon(MatrixStack matrices, TabRenderInfo tabRenderInfo, HandledScreen<?> currentScreen) {
+    public void renderTabIcon(DrawContext context, TabRenderInfo tabRenderInfo, HandledScreen<?> currentScreen) {
         ItemStack itemStack = getItemStack();
-        ItemRenderer itemRenderer = ((ScreenAccessor) currentScreen).getItemRenderer();
         TextRenderer textRenderer = ((ScreenAccessor) currentScreen).getTextRenderer();
-        matrices.push();
-        matrices.translate(0, 0, 100.0F);
-        itemRenderer.renderInGuiWithOverrides(matrices, itemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
-        itemRenderer.renderGuiItemOverlay(matrices, textRenderer, itemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
-        matrices.pop();
+        context.getMatrices().push();
+        context.getMatrices().translate(0, 0, 100.0F);
+        context.drawItem(itemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
+        context.drawItemInSlot(textRenderer, itemStack, tabRenderInfo.itemX, tabRenderInfo.itemY);
+        context.getMatrices().pop();
     }
 
     @Override

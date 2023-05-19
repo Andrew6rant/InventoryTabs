@@ -22,12 +22,12 @@ public class ShulkerBoxTab extends SimpleBlockTab {
     public boolean shouldBeRemoved() {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
 
-        BlockEntity blockEntity = player.world.getBlockEntity(blockPos);
+        BlockEntity blockEntity = player.getWorld().getBlockEntity(blockPos);
 
         if (blockEntity instanceof ShulkerBoxBlockEntity) {
-            BlockState blockState = player.world.getBlockState(blockPos);
+            BlockState blockState = player.getWorld().getBlockState(blockPos);
 
-            return !ShulkerBoxBlockInvoker.invokeCanOpen(blockState, player.world, blockPos,
+            return !ShulkerBoxBlockInvoker.invokeCanOpen(blockState, player.getWorld(), blockPos,
                     (ShulkerBoxBlockEntity) blockEntity);
         }
 

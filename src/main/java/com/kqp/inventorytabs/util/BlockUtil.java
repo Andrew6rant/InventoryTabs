@@ -26,7 +26,7 @@ public class BlockUtil {
         return false;
     }
     public static BlockHitResult getLineOfSight(BlockPos pos, PlayerEntity player, double distance) {
-        World world = player.world;
+        World world = player.getWorld();
         BlockState blockState = world.getBlockState(pos);
         double distanceSquared = distance * distance;
 

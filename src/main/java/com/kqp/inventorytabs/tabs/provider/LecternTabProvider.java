@@ -27,10 +27,10 @@ public class LecternTabProvider extends BlockTabProvider {
         List<SimpleBlockTab> lecternTabs = tabs.stream().filter(tab -> tab instanceof SimpleBlockTab).map(tab -> (SimpleBlockTab) tab)
                 .filter(tab -> tab.blockId == Registries.BLOCK.getId(Blocks.LECTERN)).toList();
         lecternTabs.stream().filter(tab -> {
-            BlockEntity blockEntity = player.world.getBlockEntity(tab.blockPos);
+            BlockEntity blockEntity = player.getWorld().getBlockEntity(tab.blockPos);
 
             if (blockEntity instanceof LecternBlockEntity) {
-                BlockState blockState = player.world.getBlockState(tab.blockPos);
+                BlockState blockState = player.getWorld().getBlockState(tab.blockPos);
 
                 return !blockState.get(HAS_BOOK);
             }

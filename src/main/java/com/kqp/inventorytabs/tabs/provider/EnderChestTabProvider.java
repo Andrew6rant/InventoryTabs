@@ -29,7 +29,7 @@ public class EnderChestTabProvider extends BlockTabProvider {
         List<ChestTab> chestTabs = tabs.stream().filter(tab -> tab instanceof ChestTab).map(tab -> (ChestTab) tab)
                 .filter(tab -> tab.blockId == Registries.BLOCK.getId(Blocks.ENDER_CHEST)).toList();
 
-        World world = player.world;
+        World world = player.getWorld();
 
         // Add any chests that are blocked
         chestTabs.stream().filter(tab -> ChestBlock.isChestBlocked(world, tab.blockPos)).forEach(tabsToRemove::add);

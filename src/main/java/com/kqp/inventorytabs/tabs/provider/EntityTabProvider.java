@@ -17,7 +17,7 @@ public abstract class EntityTabProvider implements TabProvider {
     public static final int SEARCH_DISTANCE = 5;
     @Override
     public void addAvailableTabs(ClientPlayerEntity player, List<Tab> tabs) {
-        World world = player.world;
+        World world = player.getWorld();
         List<Entity> entityList = world.getNonSpectatingEntities(Entity.class, new Box(player.getBlockPos().getX()-SEARCH_DISTANCE, player.getBlockPos().getY()-SEARCH_DISTANCE, player.getBlockPos().getZ()-SEARCH_DISTANCE, player.getBlockPos().getX()+SEARCH_DISTANCE, player.getBlockPos().getY()+SEARCH_DISTANCE, player.getBlockPos().getZ()+SEARCH_DISTANCE));
 
         for (Entity entity : entityList) {

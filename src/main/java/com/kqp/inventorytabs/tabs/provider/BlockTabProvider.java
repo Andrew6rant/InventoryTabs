@@ -20,7 +20,7 @@ public abstract class BlockTabProvider implements TabProvider {
 
     @Override
     public void addAvailableTabs(ClientPlayerEntity player, List<Tab> tabs) {
-        World world = player.world;
+        World world = player.getWorld();
 
         // TODO: make this better and check line of sight
         for (int x = -SEARCH_DISTANCE; x <= SEARCH_DISTANCE; x++) {

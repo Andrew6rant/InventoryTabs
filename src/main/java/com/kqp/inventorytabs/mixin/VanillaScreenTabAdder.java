@@ -13,6 +13,7 @@ import com.kqp.inventorytabs.util.ChestUtil;
 
 import net.fabricmc.loader.api.FabricLoader;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.*;
 import org.spongepowered.asm.mixin.Mixin;
@@ -74,7 +75,7 @@ public abstract class VanillaScreenTabAdder extends Screen implements TabRenderi
                     matchingBlockPositions.add(blockPos);
 
                     // For double chests
-                    World world = client.player.world;
+                    World world = client.player.getWorld();
                     if (world.getBlockState(blockPos).getBlock() instanceof ChestBlock) {
                         if (ChestUtil.isDouble(world, blockPos)) {
                             matchingBlockPositions.add(ChestUtil.getOtherChestBlockPos(world, blockPos));
@@ -101,27 +102,25 @@ public abstract class VanillaScreenTabAdder extends Screen implements TabRenderi
     }
 
     @Inject(method = "render", at = @At("HEAD"))
-    protected void drawBackgroundTabs(MatrixStack matrices, int mouseX, int mouseY, float delta,
-            CallbackInfo callbackInfo) {
+    protected void drawBackgroundTabs(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (InventoryTabsClient.screenSupported(this)) {
             if (!screenDoesDumbBlock()) {
                 MinecraftClient client = MinecraftClient.getInstance();
                 TabManager tabManager = ((TabManagerContainer) client).getTabManager();
 
-                tabManager.tabRenderer.renderBackground(matrices);
+                tabManager.tabRenderer.renderBackground(context);
             }
         }
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    protected void drawForegroundTabs(MatrixStack matrices, int mouseX, int mouseY, float delta,
-            CallbackInfo callbackInfo) {
+    protected void drawForegroundTabs(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (InventoryTabsClient.screenSupported(this)) {
             MinecraftClient client = MinecraftClient.getInstance();
             TabManager tabManager = ((TabManagerContainer) client).getTabManager();
 
-            tabManager.tabRenderer.renderForeground(matrices, mouseX, mouseY);
-            tabManager.tabRenderer.renderHoverTooltips(matrices, mouseX, mouseY);
+            tabManager.tabRenderer.renderForeground(context, mouseX, mouseY);
+            tabManager.tabRenderer.renderHoverTooltips(context, mouseX, mouseY);
         }
     }
 

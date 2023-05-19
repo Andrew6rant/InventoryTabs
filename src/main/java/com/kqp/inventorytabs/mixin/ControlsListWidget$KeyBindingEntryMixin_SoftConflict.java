@@ -23,14 +23,21 @@ import net.minecraft.util.Formatting;
 public class ControlsListWidget$KeyBindingEntryMixin_SoftConflict {
 	@Shadow @Final private KeyBinding binding;
 	
-	@ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget;setMessage(Lnet/minecraft/text/Text;)V"))
-	public Text setMessage(Text text) {
-		TextColor c = text.getStyle().getColor();
-		if(c != null && c.getRgb() == Objects.requireNonNull(Formatting.RED.getColorValue())) {
-			if(this.binding == InventoryTabsClient.NEXT_TAB_KEY_BIND) {
-				text = text.copy().formatted(Formatting.GOLD);
-			}
+	@ModifyArg(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/text/MutableText;formatted(Lnet/minecraft/util/Formatting;)Lnet/minecraft/text/MutableText;"))
+	public Formatting setBracketsColor(Formatting color) {
+		if (this.binding == InventoryTabsClient.NEXT_TAB_KEY_BIND && color.equals(Formatting.RED)) {
+			return Formatting.GOLD;
 		}
-		return text;
+
+		return color;
+	}
+
+	@ModifyArg(index = 4, method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V"))
+	public int setIndicatorColor(int color) {
+		if (this.binding == InventoryTabsClient.NEXT_TAB_KEY_BIND) {
+			return Formatting.GOLD.getColorValue() | 0xFF000000;
+		}
+
+		return color;
 	}
 }

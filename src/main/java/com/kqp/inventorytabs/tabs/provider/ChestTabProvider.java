@@ -32,7 +32,7 @@ public class ChestTabProvider extends BlockTabProvider {
         List<ChestTab> chestTabs = tabs.stream().filter(tab -> tab instanceof ChestTab).map(tab -> (ChestTab) tab)
                 .filter(tab -> chestBlocks.contains(tab.blockId)).toList();
 
-        World world = player.world;
+        World world = player.getWorld();
 
         // Add any chests that are blocked
         chestTabs.stream().filter(tab -> ChestBlock.isChestBlocked(world, tab.blockPos)).forEach(tabsToRemove::add);
