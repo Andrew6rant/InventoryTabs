@@ -1,5 +1,6 @@
 package com.kqp.inventorytabs.tabs.tab;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.kqp.inventorytabs.init.InventoryTabs;
@@ -7,6 +8,7 @@ import com.kqp.inventorytabs.tabs.provider.BlockTabProvider;
 import com.kqp.inventorytabs.util.BlockUtil;
 
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
@@ -96,6 +98,16 @@ public class SimpleBlockTab extends Tab {
 
         return Text.translatable(world.getBlockState(blockPos).getBlock().getTranslationKey());
 
+    }
+
+    @Override
+    public List<Text> getFullHoverText() {
+        List<Text> hoverTexts = super.getFullHoverText();
+        World world = MinecraftClient.getInstance().player.world;
+        BlockEntity blockEntity = world.getBlockEntity(blockPos);
+        boolean isChest = blockEntity instanceof ChestBlockEntity;
+        hoverTexts.addAll(BlockUtil.getSignText(blockPos, isChest));
+        return  hoverTexts;
     }
 
     @Override

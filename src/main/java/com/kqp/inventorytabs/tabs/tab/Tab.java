@@ -12,6 +12,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Base interface for tabs.
  */
@@ -37,11 +40,23 @@ public abstract class Tab {
     public abstract boolean shouldBeRemoved();
 
     /**
-     * Returns the text that's displayed when hovering over the tab.
+     * Returns the first line of text that's displayed when hovering over the tab.
      *
      * @return
      */
     public abstract Text getHoverText();
+
+    /**
+     * Returns the full text that's displayed when hovering over the tab,
+     * this includes the text of a sign that is attached to the container.
+     *
+     * @return
+     */
+    public List<Text> getFullHoverText() {
+        ArrayList<Text> firstHoverText = new ArrayList<>(1);
+        firstHoverText.add(getHoverText());
+        return firstHoverText;
+    }
 
     /**
      * Called when the screen associated with the tab is closed.
